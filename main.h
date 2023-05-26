@@ -11,7 +11,6 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <limits.h>
-#include <ctype.h>
 #include <string.h>
 
 #define BUFFER_SIZE 1024
@@ -97,23 +96,11 @@ typedef struct builtin_struct
 } builtin_function;
 
 
-void free_data(st_shell *s_datas);
-void set_data(st_shell *s_datas, char **argv);
-
-st_separtor_list *add_sep_node_end(st_separtor_list **head, char sep);
-void free_st_separtor_list(st_separtor_list **head);
-sh_command_line *add_line_node_end(sh_command_line **head, char *line);
-void free_sh_command_line(sh_command_line **head);
-
-sh_variable_list *add_rvar_node(sh_variable_list **head,
-int lvar, char *var, int lval);
-void free_rvar_list(sh_variable_list **head);
-
-char *_memcpy(char *dest, char *src, unsigned int n);
+void _memcpy(void *dest, const void *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size);
 
-char *_strdup(char *s);
+char *_strdup(const char *str);
 int _strlen(const char *s);
 char *_strtok(char str[], char *delim);
 int _isdigit(const char *s);
@@ -125,6 +112,8 @@ int _atoi(char *s);
 char *_strcat(char *dest, const char *src);
 char *_strcpy(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
+void _strncpy(char *dest, char *src, size_t n);
+void string_slice(char *str, int start, int end, char *result);
 char *_strchr(char *s, char c);
 void rev_string(char *s);
 void *fill_an_array(void *a, int el, unsigned int len);
@@ -132,6 +121,18 @@ void *fill_an_array(void *a, int el, unsigned int len);
 char *without_comment(char *in);
 void shell_loop(st_shell *s_datas);
 char *read_line(int *eof);
+
+void free_data(st_shell *s_datas);
+void set_data(st_shell *s_datas, char **argv);
+
+st_separtor_list *add_sep_node_end(st_separtor_list **head, char sep);
+void free_st_separtor_list(st_separtor_list **head);
+sh_command_line *add_line_node_end(sh_command_line **head, char *line);
+void free_sh_command_line(sh_command_line **head);
+
+sh_variable_list *add_rvar_node(sh_variable_list **head,
+int lvar, char *var, int lval);
+void free_rvar_list(sh_variable_list **head);
 
 char *swap_char(char *input, int bool);
 void join_nodes(st_separtor_list **head_s,
@@ -146,8 +147,17 @@ char *sub_input(sh_variable_list **head,
 char *input, char *new_input, int size);
 char *swap_variable(char *input, st_shell *s_datas);
 
+void aux_help_env(void);
+void aux_help_setenv(void);
+void aux_help_unsetenv(void);
+void aux_help_general(void);
+void aux_help_exit(void);
+void aux_help(void);
+void aux_help_alias(void);
+void aux_help_cd(void);
+int get_help(st_shell *s_datas);
+
 void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
-ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 int locate_command(st_shell *s_datas);
 int current_location(char *path, int *i);
 char *get_location(char *cmd, char **_environ);
@@ -182,15 +192,5 @@ int get_error(st_shell *s_datas, int eval);
 int error_sep_op(char *input, int i, char last);
 void print_syntax_error(st_shell *s_datas, const char *input, int i, int bool);
 int check_syntax_error(st_shell *s_datas, char *input);
-
-void aux_help_env(void);
-void aux_help_setenv(void);
-void aux_help_unsetenv(void);
-void aux_help_general(void);
-void aux_help_exit(void);
-void aux_help(void);
-void aux_help_alias(void);
-void aux_help_cd(void);
-int get_help(st_shell *s_datas);
 
 #endif

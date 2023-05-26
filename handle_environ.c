@@ -40,15 +40,18 @@ char *_mygetenv(const char *name, char **_environ)
 int _myenv(st_shell *s_datas)
 {
 	int i, j;
+	char stop[8];
 
 	for (i = 0; s_datas->_environ[i]; i++)
 	{
-		for (j = 0; s_datas->_environ[i][j]; j++)
-			;
+		j = _strlen(s_datas->_environ[i]);
 
 		if (write(STDOUT_FILENO, s_datas->_environ[i], j) == -1 ||
 			write(STDOUT_FILENO, "\n", 1) == -1)
 			return (0);
+		string_slice(s_datas->_environ[i], 0, 7, stop);
+		if (_strcmp(stop, "DISPLAY") == 0)
+			break;
 	}
 
 	s_datas->status = 0;

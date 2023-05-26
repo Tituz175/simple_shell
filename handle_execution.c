@@ -24,60 +24,6 @@ int current_location(char *path, int *i)
 }
 
 /**
- * search_in_path - searches for the location of a
- * command executable in the PATH environment variable.
- * @command: the command name to search for.
- * @path: the PATH environment variable.
- * Return: a pointer to a string representing the path of the
- * command if found, NULL otherwise.
- */
-char *search_in_path(char *command, char *path)
-{
-	struct stat buffer;
-	char *path_copy = _strdup(path), *path_token = NULL, *file_path = NULL;
-	int command_length = _strlen(command), i;
-
-	if (command[0] == '/' && stat(command, &buffer) == 0)
-		return (command);
-	if (path_copy != NULL && path)
-	{
-		path_token = _strtok(path_copy, ":");
-		while (path_token)
-		{
-			i = 0;
-			if (current_location(path_token, &i))
-				file_path = malloc(command_length + 1);
-			else
-				file_path = malloc(_strlen(path_token) + command_length + 2);
-			if (file_path)
-			{
-				if (current_location(path_token, &i))
-					_strcpy(file_path, command);
-				else
-				{
-					_strcpy(file_path, path_token);
-					_strcat(file_path, "/");
-					_strcat(file_path, command);
-				}
-
-				if (stat(file_path, &buffer) == 0)
-				{
-					free(path_copy);
-					return (file_path);
-				}
-				else
-					free(file_path);
-			}
-			path_token = _strtok(NULL, ":");
-		}
-		free(path_copy);
-	}
-	return (NULL);
-}
-
-
-
-/**
  * get_location - get the location of a command executable
  * @command: the command name to search for.
  * @_environ: the environment variable.
@@ -86,19 +32,46 @@ char *search_in_path(char *command, char *path)
  */
 char *get_location(char *command, char **_environ)
 {
-	char *path, *file_path;
+	char *path, *ptr_path, *token_path, *dir;
+	int len_dir, len_cmd, i;
+	struct stat buffer;
 
 	path = _mygetenv("PATH", _environ);
 	if (path)
 	{
-		file_path = search_in_path(command, path);
-		if (file_path != NULL)
-			return (file_path);
+		ptr_path = _strdup(path);
+		len_cmd = _strlen(command);
+		token_path = _strtok(ptr_path, ":");
+		i = 0;
+		while (token_path != NULL)
+		{
+			if (current_location(path, &i))
+				if (stat(command, &buffer) == 0)
+					return (command);
+			len_dir = _strlen(token_path);
+			dir = malloc(len_dir + len_cmd + 2);
+			_strcpy(dir, token_path);
+			_strcat(dir, "/");
+			_strcat(dir, command);
+			_strcat(dir, "\0");
+			if (stat(dir, &buffer) == 0)
+			{
+				free(ptr_path);
+				return (dir);
+			}
+			free(dir);
+			token_path = _strtok(NULL, ":");
+		}
+		free(ptr_path);
+		if (stat(command, &buffer) == 0)
+			return (command);
+		return (NULL);
 	}
+	if (command[0] == '/')
+		if (stat(command, &buffer) == 0)
+			return (command);
 	return (NULL);
 }
-
-
 
 
 /**
@@ -145,8 +118,6 @@ int runable(st_shell *s_datas)
 	get_error(s_datas, 127);
 	return (-1);
 }
-
-
 
 /**
  * run_command - executes command lines
@@ -195,6 +166,5 @@ int run_command(st_shell *s_datas)
 		} while (!WIFEXITED(state) && !WIFSIGNALED(state));
 	}
 	s_datas->status = state / 256;
-	free(dir);
 	return (1);
 }

@@ -85,15 +85,15 @@ char *_strchr(char *str, char ch)
  * @str: the given string.
  * Return: the pointer to the duplicated string.
  */
-char *_strdup(char *str)
+char *_strdup(const char *str)
 {
 	char *ret;
+	size_t length = _strlen(str) + 1;
 
-	ret = malloc(sizeof(char) * (_strlen(str) + 1));
+	ret = malloc(sizeof(char) * (length));
 	if (!ret)
 		return (NULL);
-
-	_strcpy(ret, str);
+	_memcpy(ret, str, length);
 
 	return (ret);
 }

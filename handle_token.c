@@ -10,45 +10,37 @@
 char *swap_char(char *input, int bool)
 {
 	int i;
-	char *swapped = _strdup(input);
 
-	if (swapped == NULL)
-		return (NULL);
-
-	for (i = 0; swapped[i]; i++)
+	if (bool == 0)
 	{
-		if (swapped[i] == '|')
+		for (i = 0; input[i]; i++)
 		{
-			if (swapped[i + 1] != '|')
-				swapped[i] = 16;
-			else
+			if (input[i] == '|')
 			{
-				i++;
+				if (input[i + 1] != '|')
+					input[i] = 16;
+				else
+					i++;
+			}
+
+			if (input[i] == '&')
+			{
+				if (input[i + 1] != '&')
+					input[i] = 12;
+				else
+					i++;
 			}
 		}
-
-		if (swapped[i] == '&')
-		{
-			if (swapped[i + 1] != '&')
-				swapped[i] = 12;
-			else
-				i++;
-		}
 	}
-
-	if (bool != 0)
+	else
 	{
-		i = 0;
-
-		for (i = 0; swapped[i]; i++)
+		for (i = 0; input[i]; i++)
 		{
-			swapped[i] = (swapped[i] == 16 ? '|' : swapped[i]);
-			swapped[i] = (swapped[i] == 12 ? '&' : swapped[i]);
+			input[i] = (input[i] == 16 ? '|' : input[i]);
+			input[i] = (input[i] == 12 ? '&' : input[i]);
 		}
 	}
-	return (swapped);
-	free(swapped);
-	free(input);
+	return (input);
 }
 
 
@@ -72,20 +64,22 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 
 	for (i = 0; input[i]; i++)
 	{
-		if (_strchr(sep, input[i]))
+		if (strchr(sep, input[i]))
 			add_sep_node_end(head_s, input[i]);
 
-		if ((input[i] == '|' || input[i] == '&') && input[i + 1] == input[i])
+		if (input[i] == '|' || input[i] == '&')
+		{
+			add_sep_node_end(head_s, input[i]);
 			i++;
+		}
 	}
 
-	line = _strtok(input, sep);
-	while (line != NULL)
-	{
+	line = strtok(input, sep);
+	do {
 		line = swap_char(line, 1);
 		add_line_node_end(head_l, line);
-		line = _strtok(NULL, sep);
-	}
+		line = strtok(NULL, sep);
+	} while (line != NULL);
 
 }
 
@@ -183,9 +177,9 @@ int tokenize_commands(st_shell *s_datas, char *input)
  */
 char **tokenize_input(char *input)
 {
-	size_t bsize = TOKEN_BUFFERSIZE;
+	size_t buffersize = TOKEN_BUFFERSIZE;
 	size_t i = 0;
-	char **tokens = malloc(bsize * sizeof(char *));
+	char **tokens = malloc(buffersize * sizeof(char *));
 	char *token;
 
 	if (tokens == NULL)
@@ -195,26 +189,23 @@ char **tokenize_input(char *input)
 	}
 
 	token = _strtok(input, TOKEN_DELIM);
+	tokens[0] = token;
 
-	while (token != NULL)
+	for (i = 1; token != NULL; i++)
 	{
-		tokens[i++] = _strdup(token);
-
-		if (i == bsize)
+		if (i == buffersize)
 		{
-			bsize += TOKEN_BUFFERSIZE;
-			tokens = realloc(tokens, bsize * sizeof(char *));
-
+			buffersize += TOKEN_BUFFERSIZE;
+			tokens = _reallocdp(tokens, i, sizeof(char *) * buffersize);
 			if (tokens == NULL)
 			{
-				perror("realloc");
+				perror("malloc");
 				exit(EXIT_FAILURE);
 			}
 		}
-
 		token = _strtok(NULL, TOKEN_DELIM);
+		tokens[i] = token;
 	}
 
-	tokens[i] = NULL;
 	return (tokens);
 }

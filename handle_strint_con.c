@@ -49,18 +49,17 @@ int _atoi(char *s)
 char *aux_itoa(int n)
 {
 	unsigned int n1;
-	int lenght = num_len(n);
-	char *buffer;
+	int i, length = num_len(n);
+	char *buffer = malloc(sizeof(char) * (length + 1));
 
-	buffer = malloc(sizeof(char) * (lenght + 1));
-	if (buffer == 0)
+	if (buffer == NULL)
 		return (NULL);
 
-	*(buffer + lenght) = '\0';
+	buffer[length] = '\0';
 
 	if (n < 0)
 	{
-		n1 = n * -1;
+		n1 = -n;
 		buffer[0] = '-';
 	}
 	else
@@ -68,16 +67,15 @@ char *aux_itoa(int n)
 		n1 = n;
 	}
 
-	lenght--;
-	do {
-		*(buffer + lenght) = (n1 % 10) + '0';
-		n1 = n1 / 10;
-		lenght--;
+	for (i = length - 1; i >= 0; i--)
+	{
+		buffer[i] = (n1 % 10) + '0';
+		n1 /= 10;
 	}
-	while (n1 > 0)
-		;
+
 	return (buffer);
 }
+
 
 /**
  * copy_info - copies info to create

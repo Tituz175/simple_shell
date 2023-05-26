@@ -100,46 +100,41 @@ int check_vars(sh_variable_list **h, char *in, char *st, st_shell *data)
 char *sub_input(sh_variable_list **head, char *input,
 	char *new_input, int size)
 {
-	sh_variable_list *indx;
-	int i, j, k;
+	int i, k;
+	sh_variable_list *indx = *head;
+	char *output = new_input;
 
-	indx = *head;
-	for (j = i = 0; i < size; i++)
+	for (i = 0; i < size; i++)
 	{
-		if (input[j] == '$')
+		if (input[i] == '$')
 		{
 			if (!(indx->len_var) && !(indx->len_val))
 			{
-				new_input[i] = input[j];
-				j++;
+				*output++ = input[i++];
 			}
 			else if (indx->len_var && !(indx->len_val))
 			{
-				for (k = 0; k < indx->len_var; k++)
-					j++;
-				i--;
+				i += indx->len_var - 1;
 			}
 			else
 			{
 				for (k = 0; k < indx->len_val; k++)
 				{
-					new_input[i] = indx->val[k];
-					i++;
+					*output++ = indx->val[k];
 				}
-				j += (indx->len_var);
-				i--;
+				i += indx->len_var - 1;
 			}
 			indx = indx->next;
 		}
 		else
 		{
-			new_input[i] = input[j];
-			j++;
+			*output++ = input[i];
 		}
 	}
 
 	return (new_input);
 }
+
 
 /**
  * swap_variable - calls functions to replace string into vars
@@ -173,17 +168,17 @@ char *swap_variable(char *input, st_shell *s_datas)
 		new_len += (index->len_val - index->len_var);
 		index = index->next;
 	}
+
 	new_len += old_len;
 
 	new_input = malloc(sizeof(char) * (new_len + 1));
 	if (new_input == NULL)
 	{
 		perror("malloc");
-		free(new_input);
 		exit(EXIT_FAILURE);
 	}
-	new_input[new_len] = '\0';
 
+	new_input[new_len] = '\0';
 	new_input = sub_input(&head, input, new_input, new_len);
 
 	free(input);
@@ -191,6 +186,7 @@ char *swap_variable(char *input, st_shell *s_datas)
 	free_rvar_list(&head);
 	return (new_input);
 }
+
 
 /**
  * repeated_char - counts the repetitions of a char
