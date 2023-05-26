@@ -101,3 +101,49 @@ char *copy_info(char *name, char *variableue)
 
 	return (new);
 }
+
+/**
+ * _strncpy -> copy a certain number of string
+ * @dest: destination of the copied string
+ * @src: source of the string
+ * @n: total number of character to be copied.
+ */
+
+void _strncpy(char *dest, char *src, size_t n)
+{
+	while (*src && n > 0)
+	{
+		*dest++ = *src++;
+		n--;
+	}
+
+	while (n > 0)
+	{
+		*dest++ = '\0';
+		n--;
+	}
+
+}
+
+/**
+ * string_slice -> slice a given string
+ * @str: string to be slice
+ * @start: start position of the slice
+ * @end: end position of the slice
+ * @result: the result string of the slice.
+ */
+
+void string_slice(char *str, int start, int end, char *result)
+{
+	int length = _strlen(str);
+	int slice_length = end - start;
+
+	if (start < 0 || end > length || start > end)
+	{
+		result[0] = '\0';
+		return;
+	}
+
+	_strncpy(result, str + start, slice_length);
+	result[slice_length] = '\0';
+}

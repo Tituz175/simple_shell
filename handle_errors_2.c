@@ -87,9 +87,9 @@ int check_error_cmd(char *dir, st_shell *s_datas)
  * @s_datas: pointer to shell data struct
  * @input: string containing the user input
  * @i: index in the input string where the error occurred
- * @bool: boolean value indicating whether the error occurred before or after i
+ * @flag: boolean value indicating whether the error occurred before or after i
  */
-void print_syntax_error(st_shell *s_datas, const char *input, int i, int bool)
+void print_syntax_error(st_shell *s_datas, const char *input, int i, int flag)
 {
 	const char *msg = NULL;
 	const char *msg2 = ": Syntax error: \"";
@@ -124,7 +124,7 @@ void print_syntax_error(st_shell *s_datas, const char *input, int i, int bool)
 	_strcat(error, msg);
 	_strcat(error, msg3);
 	_strcat(error, "\0");
-	if (bool)
+	if (flag)
 		i--;
 	error[i + _strlen(s_datas->argv[0]) + _strlen(ct_str) + _strlen(msg2)] = '^';
 

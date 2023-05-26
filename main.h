@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <limits.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define BUFFER_SIZE 1024
 #define TOKEN_BUFFERSIZE 128
@@ -118,7 +119,7 @@ char *_strchr(char *s, char c);
 void rev_string(char *s);
 void *fill_an_array(void *a, int el, unsigned int len);
 
-char *without_comment(char *in);
+char *filter_out_comment(char *in);
 void shell_loop(st_shell *s_datas);
 char *read_line(int *eof);
 
@@ -134,7 +135,7 @@ sh_variable_list *add_var_end(sh_variable_list **head,
 int lvar, char *var, int lval);
 void free_rvar_list(sh_variable_list **head);
 
-char *swap_char(char *input, int bool);
+char *swap_char(char *input, int flag);
 void join_nodes(st_separtor_list **head_s,
 sh_command_line **head_l, char *input);
 void next_command(st_separtor_list **list_s,
@@ -190,7 +191,7 @@ int find_first_non_whitespace(char *input, int *index);
 int find_next_operator_index(char *input, int *index);
 int get_error(st_shell *s_datas, int eval);
 int error_sep_op(char *input, int i, char last);
-void print_syntax_error(st_shell *s_datas, const char *input, int i, int bool);
+void print_syntax_error(st_shell *s_datas, const char *input, int i, int flag);
 int check_syntax_error(st_shell *s_datas, char *input);
 
 #endif

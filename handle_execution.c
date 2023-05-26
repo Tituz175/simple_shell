@@ -168,3 +168,45 @@ int run_command(st_shell *s_datas)
 	s_datas->status = state / 256;
 	return (1);
 }
+
+/**
+ * filter_out_comment -> this function removes comments
+ * from a given input string
+ *
+ * @input: input string
+ * Return: a pointer to the modified input string
+ */
+
+char *filter_out_comment(char *input)
+{
+	int i, limit = 0;
+	bool found_comment = false;
+
+	for (i = 0; input[i]; i++)
+	{
+		if (input[i] == '#')
+		{
+			if (i == 0)
+			{
+				free(input);
+				return (NULL);
+			}
+
+			if (input[i - 1] == ' ' || input[i - 1] == '\t' || input[i - 1] == ';')
+			{
+				limit = i;
+				found_comment = true;
+			}
+			else
+				break;
+		}
+	}
+
+	if (found_comment)
+	{
+		input = _realloc(input, i, limit + 1);
+		input[limit] = '\0';
+	}
+
+	return (input);
+}

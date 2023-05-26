@@ -4,14 +4,14 @@
  * swap_char -> this function swaps | and & for non-printed chars
  *
  * @input: input string
- * @bool: type of swap
+ * @flag: type of swap
  * Return: swapped string
  */
-char *swap_char(char *input, int bool)
+char *swap_char(char *input, int flag)
 {
 	int i;
 
-	if (bool == 0)
+	if (flag == 0)
 	{
 		for (i = 0; input[i]; i++)
 		{
