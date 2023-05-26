@@ -1,13 +1,14 @@
 #include "main.h"
 
 /**
- * swap_char -> this function swaps | and & for non-printed chars
+ * char_switch -> this function switch these char | and &
+ * to non-printed chars
  *
  * @input: input string
  * @flag: type of swap
  * Return: swapped string
  */
-char *swap_char(char *input, int flag)
+char *char_switch(char *input, int flag)
 {
 	int i;
 
@@ -60,7 +61,7 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 	char *line;
 	char *sep = ";|&";
 
-	input = swap_char(input, 0);
+	input = char_switch(input, 0);
 
 	for (i = 0; input[i]; i++)
 	{
@@ -76,7 +77,7 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 
 	line = strtok(input, sep);
 	do {
-		line = swap_char(line, 1);
+		line = char_switch(line, 1);
 		add_line_end(head_l, line);
 		line = strtok(NULL, sep);
 	} while (line != NULL);
@@ -85,7 +86,8 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 
 
 /**
- * next_command - go to the next command line stored
+ * next_command - this function moves to
+ * the next command line in storage
  *
  * @list_s: separator list
  * @list_l: command line list
@@ -123,8 +125,8 @@ void next_command(st_separtor_list **list_s, sh_command_line **list_l,
 }
 
 /**
- * tokenize_commands - splits command lines according to
- * the separators ;, | and &, and executes them
+ * tokenize_commands - splits command lines according using
+ * separators and executes them
  *
  * @s_datas: data structure
  * @input: input string
@@ -173,7 +175,7 @@ int tokenize_commands(st_shell *s_datas, char *input)
  * tokenize_input - tokenizes the input string
  *
  * @input: input string.
- * Return: string splitted.
+ * Return: string tokens.
  */
 char **tokenize_input(char *input)
 {

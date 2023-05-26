@@ -135,7 +135,7 @@ sh_variable_list *add_var_end(sh_variable_list **head,
 int lvar, char *var, int lval);
 void free_rvar_list(sh_variable_list **head);
 
-char *swap_char(char *input, int flag);
+char *char_switch(char *input, int flag);
 void join_nodes(st_separtor_list **head_s,
 sh_command_line **head_l, char *input);
 void next_command(st_separtor_list **list_s,

@@ -1,80 +1,6 @@
 #include "main.h"
 
 /**
- * current_location -> this function checks if the current directory is
- * in the PATH environment variable.
- * @path: a pointer to a string representing the PATH
- * environment variable.
- * @i: a pointer to an integer representing the current
- * index in the path string.
- * Return: 1 if the current directory is in the PATH, 0 otherwise.
- */
-int current_location(char *path, int *i)
-{
-	if (path[*i] == ':')
-		return (1);
-
-	while (path[*i] != ':' && path[*i] != '\0')
-		*i += 1;
-
-	if (path[*i] != '\0')
-		*i += 1;
-
-	return (0);
-}
-
-/**
- * get_location - get the location of a command executable
- * @command: the command name to search for.
- * @_environ: the environment variable.
- * Return: a pointer to a string representing the path of the
- * command if found, NULL otherwise.
- */
-char *get_location(char *command, char **_environ)
-{
-	char *path, *ptr_path, *token_path, *dir;
-	int len_dir, len_cmd, i;
-	struct stat buffer;
-
-	path = _mygetenv("PATH", _environ);
-	if (path)
-	{
-		ptr_path = _strdup(path);
-		len_cmd = _strlen(command);
-		token_path = _strtok(ptr_path, ":");
-		i = 0;
-		while (token_path != NULL)
-		{
-			if (current_location(path, &i))
-				if (stat(command, &buffer) == 0)
-					return (command);
-			len_dir = _strlen(token_path);
-			dir = malloc(len_dir + len_cmd + 2);
-			_strcpy(dir, token_path);
-			_strcat(dir, "/");
-			_strcat(dir, command);
-			_strcat(dir, "\0");
-			if (stat(dir, &buffer) == 0)
-			{
-				free(ptr_path);
-				return (dir);
-			}
-			free(dir);
-			token_path = _strtok(NULL, ":");
-		}
-		free(ptr_path);
-		if (stat(command, &buffer) == 0)
-			return (command);
-		return (NULL);
-	}
-	if (command[0] == '/')
-		if (stat(command, &buffer) == 0)
-			return (command);
-	return (NULL);
-}
-
-
-/**
  * runable - determines if is an executable
  *
  * @s_datas: data structure
@@ -117,6 +43,79 @@ int runable(st_shell *s_datas)
 	}
 	get_error(s_datas, 127);
 	return (-1);
+}
+
+/**
+ * get_location - get the location of a command executable
+ * @command: the command name to search for.
+ * @_environ: the environment variable.
+ * Return: a pointer to a string representing the path of the
+ * command if found, NULL otherwise.
+ */
+char *get_location(char *command, char **_environ)
+{
+	char *path, *ptr_path, *token_path, *dir;
+	int dir_length, command_length, i;
+	struct stat buffer;
+
+	path = _mygetenv("PATH", _environ);
+	if (path)
+	{
+		ptr_path = _strdup(path);
+		command_length = _strlen(command);
+		token_path = _strtok(ptr_path, ":");
+		i = 0;
+		while (token_path != NULL)
+		{
+			if (current_location(path, &i))
+				if (stat(command, &buffer) == 0)
+					return (command);
+			dir_length = _strlen(token_path);
+			dir = malloc(dir_length + command_length + 2);
+			_strcpy(dir, token_path);
+			_strcat(dir, "/");
+			_strcat(dir, command);
+			_strcat(dir, "\0");
+			if (stat(dir, &buffer) == 0)
+			{
+				free(ptr_path);
+				return (dir);
+			}
+			free(dir);
+			token_path = _strtok(NULL, ":");
+		}
+		free(ptr_path);
+		if (stat(command, &buffer) == 0)
+			return (command);
+		return (NULL);
+	}
+	if (command[0] == '/')
+		if (stat(command, &buffer) == 0)
+			return (command);
+	return (NULL);
+}
+
+/**
+ * current_location -> this function checks if the current directory is
+ * in the PATH environment variable.
+ * @path: a pointer to a string representing the PATH
+ * environment variable.
+ * @i: a pointer to an integer representing the current
+ * index in the path string.
+ * Return: 1 if the current directory is in the PATH, 0 otherwise.
+ */
+int current_location(char *path, int *i)
+{
+	if (path[*i] == ':')
+		return (1);
+
+	while (path[*i] != ':' && path[*i] != '\0')
+		*i += 1;
+
+	if (path[*i] != '\0')
+		*i += 1;
+
+	return (0);
 }
 
 /**
