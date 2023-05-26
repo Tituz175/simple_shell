@@ -65,11 +65,11 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 	for (i = 0; input[i]; i++)
 	{
 		if (strchr(sep, input[i]))
-			add_sep_node_end(head_s, input[i]);
+			add_sep_end(head_s, input[i]);
 
 		if (input[i] == '|' || input[i] == '&')
 		{
-			add_sep_node_end(head_s, input[i]);
+			add_sep_end(head_s, input[i]);
 			i++;
 		}
 	}
@@ -77,7 +77,7 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 	line = strtok(input, sep);
 	do {
 		line = swap_char(line, 1);
-		add_line_node_end(head_l, line);
+		add_line_end(head_l, line);
 		line = strtok(NULL, sep);
 	} while (line != NULL);
 

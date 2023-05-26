@@ -30,24 +30,24 @@ int locate_command(st_shell *s_datas)
  */
 int exit_command(st_shell *s_datas)
 {
-	unsigned int ustatus;
-	int is_digit;
-	int str_len;
-	int big_number;
+	unsigned int exit_status;
+	int isdigit;
+	int string_length;
+	int max_number;
 
 	if (s_datas->args[1] != NULL)
 	{
-		ustatus = _atoi(s_datas->args[1]);
-		is_digit = _isdigit(s_datas->args[1]);
-		str_len = _strlen(s_datas->args[1]);
-		big_number = ustatus > (unsigned int)INT_MAX;
-		if (!is_digit || str_len > 10 || big_number)
+		exit_status = _atoi(s_datas->args[1]);
+		isdigit = _isdigit(s_datas->args[1]);
+		string_length = _strlen(s_datas->args[1]);
+		max_number = exit_status > (unsigned int)INT_MAX;
+		if (!isdigit || string_length > 10 || max_number)
 		{
 			get_error(s_datas, 2);
 			s_datas->status = 2;
 			return (1);
 		}
-		s_datas->status = (ustatus % 256);
+		s_datas->status = (exit_status % 256);
 	}
 	return (0);
 }

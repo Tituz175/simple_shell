@@ -125,12 +125,12 @@ char *read_line(int *eof);
 void free_data(st_shell *s_datas);
 void set_data(st_shell *s_datas, char **argv);
 
-st_separtor_list *add_sep_node_end(st_separtor_list **head, char sep);
+st_separtor_list *add_sep_end(st_separtor_list **head, char sep);
 void free_st_separtor_list(st_separtor_list **head);
-sh_command_line *add_line_node_end(sh_command_line **head, char *line);
+sh_command_line *add_line_end(sh_command_line **head, char *line);
 void free_sh_command_line(sh_command_line **head);
 
-sh_variable_list *add_rvar_node(sh_variable_list **head,
+sh_variable_list *add_var_end(sh_variable_list **head,
 int lvar, char *var, int lval);
 void free_rvar_list(sh_variable_list **head);
 
@@ -147,14 +147,14 @@ char *sub_input(sh_variable_list **head,
 char *input, char *new_input, int size);
 char *swap_variable(char *input, st_shell *s_datas);
 
-void aux_help_env(void);
-void aux_help_setenv(void);
-void aux_help_unsetenv(void);
-void aux_help_general(void);
-void aux_help_exit(void);
-void aux_help(void);
-void aux_help_alias(void);
-void aux_help_cd(void);
+void help_env(void);
+void help_setenv(void);
+void help_unsetenv(void);
+void help_general(void);
+void help_exit(void);
+void help(void);
+void help_alias(void);
+void help_cd(void);
 int get_help(st_shell *s_datas);
 
 void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);

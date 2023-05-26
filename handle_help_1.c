@@ -11,21 +11,21 @@ int get_help(st_shell *s_datas)
 	char *command = s_datas->args[1];
 
 	if (s_datas->args[1] == 0)
-		aux_help_general();
+		help_general();
 	else if (_strcmp(command, "setenv") == 0)
-		aux_help_setenv();
+		help_setenv();
 	else if (_strcmp(command, "env") == 0)
-		aux_help_env();
+		help_env();
 	else if (_strcmp(command, "unsetenv") == 0)
-		aux_help_unsetenv();
+		help_unsetenv();
 	else if (_strcmp(command, "help") == 0)
-		aux_help();
+		help();
 	else if (_strcmp(command, "exit") == 0)
-		aux_help_exit();
+		help_exit();
 	else if (_strcmp(command, "cd") == 0)
-		aux_help_cd();
+		help_cd();
 	else if (_strcmp(command, "alias") == 0)
-		aux_help_alias();
+		help_alias();
 	else
 		write(STDERR_FILENO, s_datas->args[0],
 		      _strlen(s_datas->args[0]));
@@ -35,14 +35,14 @@ int get_help(st_shell *s_datas)
 }
 
 /**
- * aux_help - Display help information for the shell.
+ * help - Display help information for the shell.
  *
  * This function displays help information for the shell, including
  * summaries of builtin commands and general usage information.
  *
  * Return: void
  */
-void aux_help(void)
+void help(void)
 {
 	char *help_msg =
 		"Usage: shell [OPTIONS] [COMMANDS]\n"
@@ -69,9 +69,9 @@ void aux_help(void)
 }
 
 /**
- * aux_help_alias - Displays help information for the `alias` builtin.
+ * help_alias - Displays help information for the `alias` builtin.
  */
-void aux_help_alias(void)
+void help_alias(void)
 {
 	const char *help =
 		"alias: alias [-p] [name[=value] ...]\n"
@@ -93,9 +93,9 @@ void aux_help_alias(void)
 }
 
 /**
- * aux_help_cd - Display help information for the `cd` command
+ * help_cd - Display help information for the `cd` command
  */
-void aux_help_cd(void)
+void help_cd(void)
 {
 	char *help = "cd: cd [-L|-P] [dir]\n"
 				"\tChange the current working directory.\n\n"

@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- * aux_help_env - Print help information for the builtin env command
+ * help_env - Print help information for the builtin env command
  */
-void aux_help_env(void)
+void help_env(void)
 {
 	char *help = "env: env [option] [name=variableue] [command [args]]\n";
 
@@ -14,10 +14,10 @@ void aux_help_env(void)
 }
 
 /**
- * aux_help_setenv - Help information for the builtin setenv
+ * help_setenv - Help information for the builtin setenv
  * Return: no return
  */
-void aux_help_setenv(void)
+void help_setenv(void)
 {
 	char *help = "setenv: setenv NAME VALUE [REPLACE]\n";
 
@@ -34,10 +34,10 @@ void aux_help_setenv(void)
 
 
 /**
- * aux_help_unsetenv - Help information for the builtin unsetenv
+ * help_unsetenv - Help information for the builtin unsetenv
  * Return: no return
  */
-void aux_help_unsetenv(void)
+void help_unsetenv(void)
 {
 	char *help = "unsetenv: unsetenv name\n\t";
 
@@ -48,10 +48,10 @@ void aux_help_unsetenv(void)
 
 
 /**
- * aux_help_general - Display help information for the shell built-ins
+ * help_general - Display help information for the shell built-ins
  * Return: no return
  */
-void aux_help_general(void)
+void help_general(void)
 {
 	char *help = "Shell built-ins:\n\n";
 
@@ -77,10 +77,10 @@ void aux_help_general(void)
 
 
 /**
- * aux_help_exit - Display help information for the builtin exit command
+ * help_exit - Display help information for the builtin exit command
  * Return: No return value
  */
-void aux_help_exit(void)
+void help_exit(void)
 {
 	char *help = "exit: exit [n]\n";
 

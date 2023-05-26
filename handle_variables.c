@@ -25,7 +25,7 @@ void environ_var_check(sh_variable_list **h, char *in, st_shell *data)
 		{
 			int len = _strlen(env_var + k + 1);
 
-			add_rvar_node(h, k, env_var + k + 1, len);
+			add_var_end(h, k, env_var + k + 1, len);
 			return;
 		}
 
@@ -38,7 +38,7 @@ void environ_var_check(sh_variable_list **h, char *in, st_shell *data)
 	';' && in[i] != '\n' && in[i] != '\0')
 		i++;
 
-	add_rvar_node(h, i, NULL, 0);
+	add_var_end(h, i, NULL, 0);
 }
 
 /**
@@ -62,17 +62,17 @@ int check_vars(sh_variable_list **h, char *in, char *st, st_shell *data)
 				switch (in[++i])
 				{
 					case '?':
-						add_rvar_node(h, 2, st, lst);
+						add_var_end(h, 2, st, lst);
 						break;
 					case '$':
-						add_rvar_node(h, 2, data->pid, lpd);
+						add_var_end(h, 2, data->pid, lpd);
 						break;
 					case '\n':
 					case '\0':
 					case ' ':
 					case '\t':
 					case ';':
-						add_rvar_node(h, 0, NULL, 0);
+						add_var_end(h, 0, NULL, 0);
 						break;
 					default:
 						environ_var_check(h, in + i, data);
