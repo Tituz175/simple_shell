@@ -48,7 +48,8 @@ void environ_var_check(sh_variable_list **head, char *input, st_shell *data)
  * @data: shell data structure
  * Return: int
  */
-int verify_variable(sh_variable_list **head, char *input, char *s_last, st_shell *data)
+int verify_variable(sh_variable_list **head, char *input,
+	char *s_last, st_shell *data)
 {
 	int i = 0, lst = _strlen(s_last), lpd = _strlen(data->pid);
 
@@ -185,7 +186,7 @@ char *swap_variable(char *input, st_shell *s_datas)
 
 
 /**
- * count_char -> this function counts the number of 
+ * count_char -> this function counts the number of
  * recusive the of a character
  * @input: input line string
  * @index: index

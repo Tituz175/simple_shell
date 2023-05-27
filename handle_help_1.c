@@ -65,7 +65,8 @@ void help(void)
 }
 
 /**
- * help_alias -> this function displays help information for the `alias` builtin.
+ * help_alias -> this function displays help information
+ * for the `alias` builtin.
  */
 void help_alias(void)
 {

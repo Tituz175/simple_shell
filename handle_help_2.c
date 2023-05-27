@@ -6,6 +6,7 @@
 void help_env(void)
 {
 	char *help = "env: env [option] [name=variableue] [command [args]]\n";
+
 	write(STDOUT_FILENO, help, _strlen(help));
 
 	help = "\tPrint the environment variables of the shell.\n";
@@ -19,6 +20,7 @@ void help_env(void)
 void help_setenv(void)
 {
 	char *help = "setenv: setenv NAME VALUE [REPLACE]\n";
+
 	write(STDOUT_FILENO, help, _strlen(help));
 
 	help = "\tAdd a new definition to the environment.\n";
