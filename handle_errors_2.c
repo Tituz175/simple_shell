@@ -82,20 +82,18 @@ int check_error_cmd(char *dir, st_shell *s_datas)
 
 
 /**
- * print_syntax_error -> this function prints a syntax error message
+ * display_syn_error -> this function prints a syntax error message
  * for a shell command
  * @s_datas: pointer to shell data struct
  * @input: string containing the user input
  * @i: index in the input string where the error occurred
  * @flag: boolean value indicating whether the error occurred before or after i
  */
-void print_syntax_error(st_shell *s_datas, const char *input, int i, int flag)
+void display_syn_error(st_shell *s_datas, const char *input, int i, int flag)
 {
-	const char *msg = NULL;
-	const char *msg2 = ": Syntax error: \"";
-	const char *msg3 = "\" unexpected\n";
-	char *error = NULL;
-	char *ct_str = NULL;
+	const char *msg = NULL, *msg2 = ": Syntax error: \"",
+	*msg3 = "\" unexpected\n";
+	char *error, *ct_str = NULL;
 	int length;
 
 	if (input[i] == ';')
@@ -136,29 +134,28 @@ void print_syntax_error(st_shell *s_datas, const char *input, int i, int flag)
 
 
 /**
- * check_syntax_error - intermediate function to
- * find and print a syntax error
+ * syntax_error -> this is function to detect
+ * a syntax error
  *
- * @s_datas: data structure
- * @input: input string
- * Return: 1 if there is an error. 0 in other case
+ * @s_datas: shell data structure
+ * @input: input line of command
+ * Return: 1 for error and 0 for no error
  */
-int check_syntax_error(st_shell *s_datas, char *input)
+int syntax_error(st_shell *s_datas, char *input)
 {
-	int begin = 0, i = 0;
-	int first_char_index, op_index;
+	int first_char_index, op_index, starting_point = 0, index = 0;
 
-	first_char_index = find_first_non_whitespace(input, &begin);
+	first_char_index = find_first_non_whitespace(input, &starting_point);
 	if (first_char_index == -1)
 	{
-		print_syntax_error(s_datas, input, begin, 0);
+		display_syn_error(s_datas, input, starting_point, 0);
 		return (1);
 	}
 
-	op_index = find_next_operator_index(input + begin, &i);
+	op_index = find_next_operator_index(input + starting_point, &index);
 	if (op_index != -1)
 	{
-		print_syntax_error(s_datas, input, begin + op_index, 1);
+		display_syn_error(s_datas, input, starting_point + op_index, 1);
 		return (1);
 	}
 
@@ -167,7 +164,6 @@ int check_syntax_error(st_shell *s_datas, char *input)
 
 /**
  * find_first_non_whitespace - finds index of the first non-whitespace char
- *
  * @input: input string
  * @index: index where to start looking
  * Return: index of the first non-whitespace char, -1 if not found

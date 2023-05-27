@@ -191,7 +191,7 @@ int find_first_non_whitespace(char *input, int *index);
 int find_next_operator_index(char *input, int *index);
 int get_error(st_shell *s_datas, int eval);
 int error_sep_op(char *input, int i, char last);
-void print_syntax_error(st_shell *s_datas, const char *input, int i, int flag);
-int check_syntax_error(st_shell *s_datas, char *input);
+void display_syn_error(st_shell *s_datas, const char *input, int i, int flag);
+int syntax_error(st_shell *s_datas, char *input);
 
 #endif

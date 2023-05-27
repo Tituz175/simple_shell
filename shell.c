@@ -45,7 +45,7 @@ void shell_loop(st_shell *s_datas)
 			if (input == NULL)
 				continue;
 
-			if (check_syntax_error(s_datas, input) == 1)
+			if (syntax_error(s_datas, input) == 1)
 			{
 				s_datas->status = 2;
 				free(input);
