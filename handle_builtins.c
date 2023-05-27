@@ -3,8 +3,7 @@
 /**
  * locate_command -> this function finds the
  * shell builtins and normal commands.
- *
- * @s_datas: shell datas needed for this function
+ * @s_datas: shell data structure needed for this function
  * Return: always return 1 on success.
  */
 int locate_command(st_shell *s_datas)
@@ -24,8 +23,7 @@ int locate_command(st_shell *s_datas)
 
 /**
  * exit_command -> This functions execute exits shell command
- *
- * @s_datas: shell datas needed for this function
+ * @s_datas: shell data structure needed for this function
  * Return: always return 0 on success.
  */
 int exit_command(st_shell *s_datas)
@@ -43,7 +41,7 @@ int exit_command(st_shell *s_datas)
 		max_number = exit_status > (unsigned int)INT_MAX;
 		if (!isdigit || string_length > 10 || max_number)
 		{
-			get_error(s_datas, 2);
+			error_info(s_datas, 2);
 			s_datas->status = 2;
 			return (1);
 		}

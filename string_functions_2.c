@@ -1,26 +1,26 @@
 #include "main.h"
 
 /**
- * _strlen -> Returns the lenght of a string.
- * @s: Type char pointer
+ * _strlen ->this function returns the lenght of a string.
+ * @str: Type char pointer
  * Return: Always 0.
  */
-int _strlen(const char *s)
+int _strlen(const char *str)
 {
-	unsigned int i = 0;
+	unsigned int index = 0;
 
-	if (!s)
+	if (!str)
 		return (0);
 
-	while (*s++)
-		i++;
-	return (i);
+	while (*str++)
+		index++;
+	return (index);
 }
 
 
 
 /**
- * _strtok -> splits a string by some delimiter.
+ * _strtok -> this function splits a string by some delimiter.
  * @str: input string.
  * @delim: delimiter.
  *
@@ -60,7 +60,7 @@ char *_strtok(char *str, char *delim)
 }
 
 /**
- * _isdigit -> defines if string passed is a number
+ * _isdigit -> this function defines if string passed is a number
  *
  * @s: input string
  * Return: 1 if string is a number. 0 in other case.
@@ -76,9 +76,8 @@ int _isdigit(const char *s)
 }
 
 /**
- * rev_string -> reverses a string.
+ * rev_string -> this function reverses a string.
  * @s: input string.
- * Return: no return.
  */
 
 void rev_string(char *s)

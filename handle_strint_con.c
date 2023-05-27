@@ -1,30 +1,29 @@
 #include "main.h"
 
 /**
- * _atoi - Convert a string to an integer.
- * @s: The pointer to convert
- *
+ * _atoi -> this function convert a string to an integer.
+ * @string: The pointer to string needed for convert
  * Return: A integer
  */
 
-int _atoi(char *s)
+int _atoi(char *string)
 {
 	int c = 0;
 	unsigned int ni = 0;
 	int min = 1;
 	int isi = 0;
 
-	while (s[c])
+	while (string[c])
 	{
-		if (s[c] == 45)
+		if (string[c] == 45)
 		{
 			min *= -1;
 		}
 
-		while (s[c] >= 48 && s[c] <= 57)
+		while (string[c] >= 48 && string[c] <= 57)
 		{
 			isi = 1;
-			ni = (ni * 10) + (s[c] - '0');
+			ni = (ni * 10) + (string[c] - '0');
 			c++;
 		}
 
@@ -42,14 +41,14 @@ int _atoi(char *s)
 
 
 /**
- * aux_itoa - function converts int to string.
- * @n: type int number
+ * aux_itoa -> function converts integer to string.
+ * @number: type interger number
  * Return: String.
  */
-char *aux_itoa(int n)
+char *aux_itoa(int number)
 {
 	unsigned int n1;
-	int i, length = num_len(n);
+	int i, length = num_len(number);
 	char *buffer = malloc(sizeof(char) * (length + 1));
 
 	if (buffer == NULL)
@@ -57,14 +56,14 @@ char *aux_itoa(int n)
 
 	buffer[length] = '\0';
 
-	if (n < 0)
+	if (number < 0)
 	{
-		n1 = -n;
+		n1 = -number;
 		buffer[0] = '-';
 	}
 	else
 	{
-		n1 = n;
+		n1 = number;
 	}
 
 	for (i = length - 1; i >= 0; i--)
@@ -78,25 +77,24 @@ char *aux_itoa(int n)
 
 
 /**
- * copy_info - copies info to create
- * a new env or alias
- * @name: name (env or alias)
- * @variableue: variableue (env or alias)
- *
- * Return: new env or alias.
+ * copy_info -> this function copies info to create
+ * a new environment or alias
+ * @name: name (environment or alias)
+ * @variable: variable (environment or alias)
+ * Return: new environment or alias.
  */
-char *copy_info(char *name, char *variableue)
+char *copy_info(char *name, char *variable)
 {
 	char *new;
-	int len_name, len_variableue, len;
+	int len_name, len_variable, len;
 
 	len_name = _strlen(name);
-	len_variableue = _strlen(variableue);
-	len = len_name + len_variableue + 2;
+	len_variable = _strlen(variable);
+	len = len_name + len_variable + 2;
 	new = malloc(sizeof(char) * (len));
 	_strcpy(new, name);
 	_strcat(new, "=");
-	_strcat(new, variableue);
+	_strcat(new, variable);
 	_strcat(new, "\0");
 
 	return (new);

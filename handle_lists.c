@@ -1,13 +1,13 @@
 #include "main.h"
 
 /**
- * add_sep_end - adds a separator found at the end
+ * add_sep_end -> this function adds a separator found at the end
  * of a st_separtor_list.
- * @head: head of the linked list.
- * @sep: separator found (; | &).
- * Return: address of the head.
+ * @head: head of the st_separtor_list linked list.
+ * @seperator: separator found (; | &).
+ * Return: address of the st_separtor_list head.
  */
-st_separtor_list *add_sep_end(st_separtor_list **head, char sep)
+st_separtor_list *add_sep_end(st_separtor_list **head, char seperator)
 {
 	st_separtor_list *new, *temp;
 
@@ -15,7 +15,7 @@ st_separtor_list *add_sep_end(st_separtor_list **head, char sep)
 	if (new == NULL)
 		return (NULL);
 
-	new->separator = sep;
+	new->separator = seperator;
 	new->next = NULL;
 	temp = *head;
 
@@ -34,9 +34,8 @@ st_separtor_list *add_sep_end(st_separtor_list **head, char sep)
 }
 
 /**
- * free_st_separtor_list - frees a st_separtor_list
- * @head: head of the linked list.
- * Return: no return.
+ * free_st_separtor_list -> this function frees a st_separtor_list
+ * @head: head of the st_separtor_list linked list.
  */
 void free_st_separtor_list(st_separtor_list **head)
 {
@@ -56,11 +55,11 @@ void free_st_separtor_list(st_separtor_list **head)
 }
 
 /**
- * add_line_end - adds a command line at the end
+ * add_line_end -> this function adds a command line at the tail
  * of a sh_command_line.
- * @head: head of the linked list.
- * @line: command line.
- * Return: address of the head.
+ * @head: head of the sh_command_line linked list.
+ * @line: given command line.
+ * Return: address of the sh_command_line head.
  */
 sh_command_line *add_line_end(sh_command_line **head, char *line)
 {
@@ -89,9 +88,8 @@ sh_command_line *add_line_end(sh_command_line **head, char *line)
 }
 
 /**
- * free_sh_command_line - frees a sh_command_line
- * @head: head of the linked list.
- * Return: no return.
+ * free_sh_command_line -> this function frees a sh_command_line
+ * @head: sh_command_line head of the linked list.
  */
 void free_sh_command_line(sh_command_line **head)
 {
@@ -111,16 +109,16 @@ void free_sh_command_line(sh_command_line **head)
 }
 
 /**
- * add_var_end - adds a variable at the end
+ * add_var_end -> this function adds a variable at the end
  * of a sh_variable_list list.
- * @head: head of the linked list.
- * @lvar: length of the variable.
- * @val: value of the variable.
- * @lval: length of the value.
- * Return: address of the head.
+ * @head: head of the linked sh_variable_list list.
+ * @length_var: length of the given variable.
+ * @val: given variable value.
+ * @length_val: given variable length.
+ * Return: address of the sh_variable_list head.
  */
 sh_variable_list *add_var_end(sh_variable_list **head,
-int lvar, char *val, int lval)
+int length_var, char *val, int length_val)
 {
 	sh_variable_list *new, *temp;
 
@@ -128,9 +126,9 @@ int lvar, char *val, int lval)
 	if (new == NULL)
 		return (NULL);
 
-	new->len_var = lvar;
+	new->len_var = length_var;
 	new->val = val;
-	new->len_val = lval;
+	new->len_val = length_val;
 
 	new->next = NULL;
 	temp = *head;

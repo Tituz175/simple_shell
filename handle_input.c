@@ -1,41 +1,7 @@
 #include "main.h"
 
 /**
- * bring_line - assigns the line var for get_line
- * @lineptr: Buffer that store the input str
- * @buffer: str that is been called to line
- * @n: size of line
- * @j: size of buffer
- */
-void bring_line(char **lineptr, size_t *n, char *buffer, size_t j)
-{
-
-	if (*lineptr == NULL)
-	{
-		if  (j > BUFFER_SIZE)
-			*n = j;
-
-		else
-			*n = BUFFER_SIZE;
-		*lineptr = buffer;
-	}
-	else if (*n < j)
-	{
-		if (j > BUFFER_SIZE)
-			*n = j;
-		else
-			*n = BUFFER_SIZE;
-		*lineptr = buffer;
-	}
-	else
-	{
-		_strcpy(*lineptr, buffer);
-		free(buffer);
-	}
-}
-
-/**
- * get_sigint - Handle the crtl + c call in prompt
+ * get_sigint -> this function handle the crtl + c call in prompt
  * @sig: Signal handler
  */
 void get_sigint(int sig)
@@ -45,11 +11,9 @@ void get_sigint(int sig)
 }
 
 
-
 /**
  * read_line -> this function is designed to read a line of text
  * from the standard input stream and return it as a string.
- *
  * @eof: a pointer to an integer that will
  * store the return value of the "getline" function
  * Return: input string
@@ -66,15 +30,13 @@ char *read_line(int *eof)
 
 
 /**
- * error_sep_op - finds syntax errors
- *
+ * locate_syntax_error -> this function locate a syntax errors
  * @input: input string
- * @i: index
- * @last: last char read
- * Return: index of error. 0 when there are no
- * errors
+ * @last: last character read
+ * @index: index
+ * Return: 0 no error else index of error
  */
-int error_sep_op(char *input, int i, char last)
+int locate_syntax_error(char *input, int index, char last)
 {
 	int count;
 
@@ -83,37 +45,37 @@ int error_sep_op(char *input, int i, char last)
 		return (0);
 
 	if (*input == ' ' || *input == '\t')
-		return (error_sep_op(input + 1, i + 1, last));
+		return (locate_syntax_error(input + 1, index + 1, last));
 
 	if (*input == ';')
 		if (last == '|' || last == '&' || last == ';')
-			return (i);
+			return (index);
 
 	if (*input == '|')
 	{
 		if (last == ';' || last == '&')
-			return (i);
+			return (index);
 
 		if (last == '|')
 		{
-			count = repeated_char(input, 0);
+			count = count_char(input, 0);
 			if (count == 0 || count > 1)
-				return (i);
+				return (index);
 		}
 	}
 
 	if (*input == '&')
 	{
 		if (last == ';' || last == '|')
-			return (i);
+			return (index);
 
 		if (last == '&')
 		{
-			count = repeated_char(input, 0);
+			count = count_char(input, 0);
 			if (count == 0 || count > 1)
-				return (i);
+				return (index);
 		}
 	}
 
-	return (error_sep_op(input + 1, i + 1, *input));
+	return (locate_syntax_error(input + 1, index + 1, *input));
 }

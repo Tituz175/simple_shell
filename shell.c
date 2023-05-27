@@ -2,10 +2,8 @@
 
 /**
  * main -> Shell program entry point
- *
  * @ac: argument count
  * @argv: argument vector
- *
  * Return: 0 on success.
  */
 int main(int ac, char *argv[])
@@ -35,8 +33,6 @@ void shell_prompt(void)
  * shell_loop -> this function continuously reads user
  * input from stdin, processes it and executes any valid commands
  * @s_datas: a struct containing relevant data.
- *
- * Return: void.
  */
 void shell_loop(st_shell *s_datas)
 {

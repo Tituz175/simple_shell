@@ -2,11 +2,10 @@
 
 /**
  * char_switch -> this function switch these char | and &
- * to non-printed chars
- *
- * @input: input string
- * @flag: type of swap
- * Return: swapped string
+ * to non-printed characters
+ * @input: input line string
+ * @flag: type of switch
+ * Return: switched string
  */
 char *char_switch(char *input, int flag)
 {
@@ -47,12 +46,10 @@ char *char_switch(char *input, int flag)
 
 /**
  * join_nodes -> this function add separators and command
- * lines in the lists
- *
- * @head_s: head of separator list
- * @head_l: head of command lines list
- * @input: input string
- * Return: no return
+ * lines to the st_separtor_list and sh_command_line
+ * @head_s: head of st_separtor_list
+ * @head_l: head of sh_command_line list
+ * @input: input line string
  */
 void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 	char *input)
@@ -84,15 +81,12 @@ void join_nodes(st_separtor_list **head_s, sh_command_line **head_l,
 
 }
 
-
 /**
- * next_command - this function moves to
+ * next_command -> this function moves to
  * the next command line in storage
- *
- * @list_s: separator list
- * @list_l: command line list
- * @s_datas: data structure
- * Return: no return
+ * @list_s: the needed separator list (st_separtor_list)
+ * @list_l: the needed command line list (sh_command_line)
+ * @s_datas: shell data structure
  */
 void next_command(st_separtor_list **list_s, sh_command_line **list_l,
 	st_shell *s_datas)
@@ -125,12 +119,11 @@ void next_command(st_separtor_list **list_s, sh_command_line **list_l,
 }
 
 /**
- * tokenize_commands - splits command lines according using
+ * tokenize_commands -> this function splits command lines according using
  * separators and executes them
- *
- * @s_datas: data structure
- * @input: input string
- * Return: 0 to exit, 1 to continue
+ * @s_datas: shell data structure
+ * @input: input line string
+ * Return: 1 - continue while 0 - exit,
  */
 int tokenize_commands(st_shell *s_datas, char *input)
 {
@@ -172,15 +165,14 @@ int tokenize_commands(st_shell *s_datas, char *input)
 }
 
 /**
- * tokenize_input - tokenizes the input string
- *
- * @input: input string.
- * Return: string tokens.
+ * tokenize_input -> this function tokenizes
+ * given input line string
+ * @input: input line string.
+ * Return: array of tokens.
  */
 char **tokenize_input(char *input)
 {
-	size_t buffersize = TOKEN_BUFFERSIZE;
-	size_t i = 0;
+	size_t buffersize = TOKEN_BUFFERSIZE, i = 0;
 	char **tokens = malloc(buffersize * sizeof(char *));
 	char *token;
 

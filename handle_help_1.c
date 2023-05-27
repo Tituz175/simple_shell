@@ -1,9 +1,8 @@
 #include "main.h"
 
 /**
- * get_help - retrieves help messages for built-in commands
+ * get_help -> this function retrieves help messages for built-in commands
  * @s_datas: pointer to a struct containing command data
- *
  * Return: Always returns 1
  */
 int get_help(st_shell *s_datas)
@@ -35,12 +34,9 @@ int get_help(st_shell *s_datas)
 }
 
 /**
- * help - Display help information for the shell.
- *
+ * help -> Display help information for the shell.
  * This function displays help information for the shell, including
  * summaries of builtin commands and general usage information.
- *
- * Return: void
  */
 void help(void)
 {
@@ -69,7 +65,7 @@ void help(void)
 }
 
 /**
- * help_alias - Displays help information for the `alias` builtin.
+ * help_alias -> this function displays help information for the `alias` builtin.
  */
 void help_alias(void)
 {
@@ -93,7 +89,7 @@ void help_alias(void)
 }
 
 /**
- * help_cd - Display help information for the `cd` command
+ * help_cd -> this function display help information for the `cd` command
  */
 void help_cd(void)
 {

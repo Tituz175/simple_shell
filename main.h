@@ -103,14 +103,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size);
 
 char *_strdup(const char *str);
-int _strlen(const char *s);
+int _strlen(const char *str);
 char *_strtok(char str[], char *delim);
 int _isdigit(const char *s);
-int repeated_char(char *input, int i);
+int count_char(char *input, int index);
 int num_len(int n);
-char *aux_itoa(int n);
+char *aux_itoa(int nunber);
 void get_sigint(int sig);
-int _atoi(char *s);
+int _atoi(char *string);
 char *_strcat(char *dest, const char *src);
 char *_strcpy(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
@@ -118,7 +118,6 @@ void _strncpy(char *dest, char *src, size_t n);
 void string_slice(char *str, int start, int end, char *result);
 char *_strchr(char *s, char c);
 void rev_string(char *s);
-void *fill_an_array(void *a, int el, unsigned int len);
 
 char *filter_out_comment(char *in);
 void shell_loop(st_shell *s_datas);
@@ -127,14 +126,14 @@ char *read_line(int *eof);
 void free_data(st_shell *s_datas);
 void set_data(st_shell *s_datas, char **argv);
 
-st_separtor_list *add_sep_end(st_separtor_list **head, char sep);
+st_separtor_list *add_sep_end(st_separtor_list **head, char seperatorFF);
 void free_st_separtor_list(st_separtor_list **head);
 sh_command_line *add_line_end(sh_command_line **head, char *line);
 void free_sh_command_line(sh_command_line **head);
 
 sh_variable_list *add_var_end(sh_variable_list **head,
-int lvar, char *var, int lval);
-void free_rvar_list(sh_variable_list **head);
+int length_var, char *var, int length_val);
+void free_var_list(sh_variable_list **head);
 
 char *char_switch(char *input, int flag);
 void join_nodes(st_separtor_list **head_s,
@@ -144,7 +143,7 @@ sh_command_line **list_l, st_shell *s_datas);
 int tokenize_commands(st_shell *s_datas, char *input);
 char **tokenize_input(char *input);
 
-int check_vars(sh_variable_list **h, char *in, char *st, st_shell *data);
+int verify_variable(sh_variable_list **head, char *input, char *s_last, st_shell *data);
 char *sub_input(sh_variable_list **head,
 char *input, char *new_input, int size);
 char *swap_variable(char *input, st_shell *s_datas);
@@ -159,12 +158,11 @@ void help_alias(void);
 void help_cd(void);
 int get_help(st_shell *s_datas);
 
-void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
 int locate_command(st_shell *s_datas);
 int current_location(char *path, int *i);
 char *get_location(char *cmd, char **_environ);
 int runable(st_shell *s_datas);
-int check_error_cmd(char *dir, st_shell *s_datas);
+int verify_cmd_error(char *dir, st_shell *s_datas);
 int run_command(st_shell *s_datas);
 void cd_parent(st_shell *s_datas);
 void cd_to(st_shell *s_datas);
@@ -177,11 +175,11 @@ int exit_command(st_shell *s_datas);
 char *_mygetenv(const char *name, char **_environ);
 int _myenv(st_shell *s_datas);
 int cmp_env_name(const char *nenv, const char *name);
-char *copy_info(char *name, char *value);
+char *copy_info(char *name, char *variable);
 void set_myenv(char *name, char *value, st_shell *s_datas);
 int set_myenv_wrapper(st_shell *s_datas);
 int _unsetenv(st_shell *s_datas);
-void environ_var_check(sh_variable_list **h, char *in, st_shell *data);
+void environ_var_check(sh_variable_list **head, char *input, st_shell *data);
 
 char *error_get_cd(st_shell *s_datas);
 char *error_not_found(st_shell *s_datas);
@@ -190,8 +188,8 @@ char *error_env(st_shell *s_datas);
 char *error_path_126(st_shell *s_datas);
 int find_first_non_whitespace(char *input, int *index);
 int find_next_operator_index(char *input, int *index);
-int get_error(st_shell *s_datas, int eval);
-int error_sep_op(char *input, int i, char last);
+int error_info(st_shell *s_datas, int eval);
+int locate_syntax_error(char *input, int index, char last);
 void display_syn_error(st_shell *s_datas, const char *input, int i, int flag);
 int syntax_error(st_shell *s_datas, char *input);
 

@@ -5,7 +5,6 @@
  * for whatever name given to it
  * @name: the name to be look for in the environment variable
  * @_environ: the process environment variable.
- *
  * Return: a pointer to the name value else, NULL.
  */
 
@@ -31,8 +30,8 @@ char *_mygetenv(const char *name, char **_environ)
 }
 
 /**
- * _myenv -> Prints the environment variables to standard output.
- *
+ * _myenv ->  this function prints the environment
+ * variables to standard output.
  * @s_datas: a pointer to a structure containing the relevant data.
  * Return: 1 on success, 0 otherwise.
  */
@@ -62,11 +61,9 @@ int _myenv(st_shell *s_datas)
 
 /**
  * set_myenv -> this function sets an environment variable
- *
  * @name: the given name of the environment variable
  * @value: the given value of the environment variable
- * @s_datas: shell data structure
- * Return: no return, void function
+ * @s_datas: shell shell data structure
  */
 void set_myenv(char *name, char *value, st_shell *s_datas)
 {
@@ -96,7 +93,6 @@ void set_myenv(char *name, char *value, st_shell *s_datas)
  * set_myenv_wrapper -> compares env variables names
  * with the name passed.
  * @s_datas: data relevant (env name and env value)
- *
  * Return: 1 on success.
  */
 int set_myenv_wrapper(st_shell *s_datas)
@@ -104,7 +100,7 @@ int set_myenv_wrapper(st_shell *s_datas)
 
 	if (s_datas->args[1] == NULL || s_datas->args[2] == NULL)
 	{
-		get_error(s_datas, -1);
+		error_info(s_datas, -1);
 		return (1);
 	}
 
@@ -114,8 +110,8 @@ int set_myenv_wrapper(st_shell *s_datas)
 }
 
 /**
- * find_next_operator_index - finds index of next operator
- *
+ * find_next_operator_index ->this functions locate
+ * index for the next operator
  * @input: input string
  * @index: pointer to index where to start looking
  * Return: index of the next operator, -1 if not found

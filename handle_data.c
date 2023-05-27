@@ -3,9 +3,7 @@
 /**
  * free_data -> this function frees the allocated
  * memory to this structure
- *
  * @s_datas: my shell data
- * Return: void function
  */
 void free_data(st_shell *s_datas)
 {
@@ -21,12 +19,11 @@ void free_data(st_shell *s_datas)
 }
 
 /**
- * set_data -> Initializes the s_datas struct with the argv array
- * and allocates memory for the environ in the struct
- *
- * @s_datas: data structure
+ * set_data -> this function initializes the s_datas struct
+ * with the argv array and allocates memory for the environ
+ * in the struct
+ * @s_datas: shell data structure
  * @argv: argument vector
- * Return: no return
  */
 void set_data(st_shell *s_datas, char **argv)
 {
@@ -57,7 +54,6 @@ void set_data(st_shell *s_datas, char **argv)
  * environment variable name in "nenv" with "name".
  * @nenv: the name of the environment variable
  * @name: the name to compare environment variable with.
- *
  * Return: always 0 if the two parameters are not equal else
  * the length of the matching prefix of "name" in "nenv".
  */
@@ -78,7 +74,7 @@ int cmp_env_name(const char *nenv, const char *name)
 
 /**
  * delete_env_var -> Deletes an environment variable.
- * @s_datas: shell data structure
+ * @s_datas: shell shell data structure
  * @name: name of the environment variable to be
  * deleted.
  * Return: always 0 on success else 1
@@ -100,7 +96,7 @@ int delete_env_var(st_shell *s_datas, char *name)
 	}
 	if (index == -1)
 	{
-		get_error(s_datas, -1);
+		error_info(s_datas, -1);
 		return (1);
 	}
 	for (i = 0; s_datas->_environ[i]; i++)
@@ -111,7 +107,7 @@ int delete_env_var(st_shell *s_datas, char *name)
 	new_environ = malloc((n_vars + 1) * sizeof(char *));
 	if (!new_environ)
 	{
-		get_error(s_datas, -1);
+		error_info(s_datas, -1);
 		return (1);
 	}
 	for (i = 0; s_datas->_environ[i]; i++)
@@ -129,16 +125,14 @@ int delete_env_var(st_shell *s_datas, char *name)
 
 /**
  * _unsetenv -> this function deletes an environment variable.
- *
  * @s_datas: data relevant (env name)
- *
  * Return: 1 on success.
  */
 int _unsetenv(st_shell *s_datas)
 {
 	if (!s_datas->args[1])
 	{
-		get_error(s_datas, -1);
+		error_info(s_datas, -1);
 		return (1);
 	}
 

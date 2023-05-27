@@ -3,10 +3,7 @@
 /**
  * cd_parent -> this function changes working
  * directory to the parent directory
- *
- * @s_datas: shell datas needed for this function
- *
- * Return: void function
+ * @s_datas: shell data structure needed for this function
  */
 void cd_parent(st_shell *s_datas)
 {
@@ -55,9 +52,7 @@ void cd_parent(st_shell *s_datas)
 /**
  * cd_to -> this function changes working directory
  * to the given directory by the user.
- *
- * @s_datas: shell datas needed for this function
- * Return: void function
+ * @s_datas: shell data structure needed for this function
  */
 void cd_to(st_shell *s_datas)
 {
@@ -69,7 +64,7 @@ void cd_to(st_shell *s_datas)
 	dir = s_datas->args[1];
 	if (chdir(dir) == -1)
 	{
-		get_error(s_datas, 2);
+		error_info(s_datas, 2);
 		return;
 	}
 
@@ -90,9 +85,7 @@ void cd_to(st_shell *s_datas)
 /**
  * cd_previous -> this function changes working directory
  * to the last directory access by the user.
- *
- * @s_datas: shell datas needed for this function
- * Return: void function
+ * @s_datas: shell data structure needed for this function
  */
 void cd_previous(st_shell *s_datas)
 {
@@ -133,9 +126,7 @@ void cd_previous(st_shell *s_datas)
 /**
  * cd_home -> this function changes the working directory
  * to the home directory.
- *
- * @s_datas: shell datas needed for this function
- * Return: no return
+ * @s_datas: shell data structure needed for this function
  */
 void cd_home(st_shell *s_datas)
 {
@@ -156,7 +147,7 @@ void cd_home(st_shell *s_datas)
 
 	if (chdir(home) == -1)
 	{
-		get_error(s_datas, 2);
+		error_info(s_datas, 2);
 		free(p_pwd);
 		return;
 	}
@@ -170,8 +161,7 @@ void cd_home(st_shell *s_datas)
 /**
  * manage_cd -> this function manage the change directory
  * function.
- *
- * @s_datas: shell datas needed for this function
+ * @s_datas: shell data structure needed for this function
  * Return: 1 on success
  */
 int manage_cd(st_shell *s_datas)

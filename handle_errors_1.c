@@ -1,13 +1,13 @@
 #include "main.h"
 
 /**
- * get_error -> calls the error according the builtin, syntax or permission
- * @s_datas: data structure that contains arguments
- * @error_num: error value
- *
- * Return: error value
+ * error_info ->this function calls the error function depending on
+ * the following permission, syntax or builtin
+ * @s_datas: shell data structure that contains arguments needed
+ * @error_num: error value number
+ * Return: error value number
  */
-int get_error(st_shell *s_datas, int error_num)
+int error_info(st_shell *s_datas, int error_num)
 {
 	char *error;
 
@@ -43,7 +43,7 @@ int get_error(st_shell *s_datas, int error_num)
 /**
  * error_not_found -> this function generate generic error message
  * for command not found
- * @s_datas: data structure that contains arguments
+ * @s_datas: shell data structure that contains arguments
  * Return: error message
  */
 char *error_not_found(st_shell *s_datas)
@@ -74,9 +74,9 @@ char *error_not_found(st_shell *s_datas)
 }
 
 /**
- * error_exit_shell - generic error message for exit in get_exit
+ * error_exit_shell -> this function generate a generic
+ * error message for exit
  * @s_datas: data relevant (counter, arguments)
- *
  * Return: Error message
  */
 char *error_exit_shell(st_shell *s_datas)
@@ -110,7 +110,7 @@ char *error_exit_shell(st_shell *s_datas)
 /**
  * error_env -> this function generates an error message
  * for env in get_env.
- * @s_datas: data structure relevant to the error message.
+ * @s_datas: shell data structure relevant to the error message.
  * Return: error message.
  */
 char *error_env(st_shell *s_datas)
@@ -147,7 +147,6 @@ char *error_env(st_shell *s_datas)
  * error_path_126 -> this function generates an error message for
  * path and failure denied permission
  * @s_datas: data relevant to the error message (counter, arguments)
- *
  * Return: error string.
  */
 char *error_path_126(st_shell *s_datas)

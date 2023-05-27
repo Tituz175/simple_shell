@@ -2,9 +2,9 @@
 
 
 /**
- * error_get_cd - generates an error message for the cd command in get_cd
+ * error_get_cd -> this function generates an error
+ * message for the cd command in get_cd function
  * @s_datas: data relevant to the error (directory, counter, arguments)
- *
  * Return: error message
  */
 char *error_get_cd(st_shell *s_datas)
@@ -44,17 +44,16 @@ char *error_get_cd(st_shell *s_datas)
 
 
 /**
- * check_error_cmd -> this function verifies if user has permissions to access
- *
+ * verify_cmd_error -> this function verifies if user has permissions to access
  * @dir: user's destination directory
- * @s_datas: data structure
+ * @s_datas: pointer to shell data structure
  * Return: 1 on failure else 0
  */
-int check_error_cmd(char *dir, st_shell *s_datas)
+int verify_cmd_error(char *dir, st_shell *s_datas)
 {
 	if (dir == NULL)
 	{
-		get_error(s_datas, 127);
+		error_info(s_datas, 127);
 		return (1);
 	}
 
@@ -62,7 +61,7 @@ int check_error_cmd(char *dir, st_shell *s_datas)
 	{
 		if (access(dir, X_OK) == -1)
 		{
-			get_error(s_datas, 126);
+			error_info(s_datas, 126);
 			free(dir);
 			return (1);
 		}
@@ -72,7 +71,7 @@ int check_error_cmd(char *dir, st_shell *s_datas)
 	{
 		if (access(s_datas->args[0], X_OK) == -1)
 		{
-			get_error(s_datas, 126);
+			error_info(s_datas, 126);
 			return (1);
 		}
 	}
@@ -84,7 +83,7 @@ int check_error_cmd(char *dir, st_shell *s_datas)
 /**
  * display_syn_error -> this function prints a syntax error message
  * for a shell command
- * @s_datas: pointer to shell data struct
+ * @s_datas: pointer to shell data structure
  * @input: string containing the user input
  * @i: index in the input string where the error occurred
  * @flag: boolean value indicating whether the error occurred before or after i
@@ -136,7 +135,6 @@ void display_syn_error(st_shell *s_datas, const char *input, int i, int flag)
 /**
  * syntax_error -> this is function to detect
  * a syntax error
- *
  * @s_datas: shell data structure
  * @input: input line of command
  * Return: 1 for error and 0 for no error
@@ -163,7 +161,8 @@ int syntax_error(st_shell *s_datas, char *input)
 }
 
 /**
- * find_first_non_whitespace - finds index of the first non-whitespace char
+ * find_first_non_whitespace -> this function finds index of the
+ * first non-whitespace character
  * @input: input string
  * @index: index where to start looking
  * Return: index of the first non-whitespace char, -1 if not found

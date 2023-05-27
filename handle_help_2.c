@@ -1,41 +1,42 @@
 #include "main.h"
 
 /**
- * help_env - Print help information for the builtin env command
+ * help_env -> this function print builtin environment command help info
  */
 void help_env(void)
 {
 	char *help = "env: env [option] [name=variableue] [command [args]]\n";
-
 	write(STDOUT_FILENO, help, _strlen(help));
-	help = "\tPrint the environment variables of the shell.\n";
 
+	help = "\tPrint the environment variables of the shell.\n";
 	write(STDOUT_FILENO, help, _strlen(help));
 }
 
 /**
- * help_setenv - Help information for the builtin setenv
- * Return: no return
+ * help_setenv -> this function print builtin set
+ * environment command help info
  */
 void help_setenv(void)
 {
 	char *help = "setenv: setenv NAME VALUE [REPLACE]\n";
-
 	write(STDOUT_FILENO, help, _strlen(help));
+
 	help = "\tAdd a new definition to the environment.\n";
 	write(STDOUT_FILENO, help, _strlen(help));
+
 	help = "\tIf REPLACE is given, it will overwrite an existing variable.\n";
 	write(STDOUT_FILENO, help, _strlen(help));
+
 	help = "\tIf REPLACE is not given and the variable already";
 	write(STDOUT_FILENO, help, _strlen(help));
+
 	help = " exists, nothing will be done.\n";
 	write(STDOUT_FILENO, help, _strlen(help));
 }
 
-
 /**
- * help_unsetenv - Help information for the builtin unsetenv
- * Return: no return
+ * help_unsetenv -> this function print builtin unset
+ * environment command help info
  */
 void help_unsetenv(void)
 {
@@ -48,8 +49,7 @@ void help_unsetenv(void)
 
 
 /**
- * help_general - Display help information for the shell built-ins
- * Return: no return
+ * help_general -> this function display shell built-ins help info
  */
 void help_general(void)
 {
@@ -77,8 +77,7 @@ void help_general(void)
 
 
 /**
- * help_exit - Display help information for the builtin exit command
- * Return: No return value
+ * help_exit -> this function display builtin exit command help info
  */
 void help_exit(void)
 {

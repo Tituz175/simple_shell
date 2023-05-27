@@ -1,52 +1,53 @@
 #include "main.h"
 
 /**
- * runable - determines if is an executable
- *
- * @s_datas: data structure
- * Return: 0 if is not an executable, other number if it does
+ * runable -> this function checks if a
+ * command is an executable
+ * @s_datas: shell data structure
+ * Return: 0 not an executable, 1 an executable,
+ * and -1 an error
  */
 int runable(st_shell *s_datas)
 {
 	struct stat buffer;
-	int i;
+	int index;
 	char *input;
 
 	input = s_datas->args[0];
-	for (i = 0; input[i]; i++)
+	for (index = 0; input[index]; index++)
 	{
-		if (input[i] == '.')
+		if (input[index] == '.')
 		{
-			if (input[i + 1] == '.')
+			if (input[index + 1] == '.')
 				return (0);
-			if (input[i + 1] == '/')
+			if (input[index + 1] == '/')
 				continue;
 			else
 				break;
 		}
-		else if (input[i] == '/' && i != 0)
+		else if (input[index] == '/' && index != 0)
 		{
-			if (input[i + 1] == '.')
+			if (input[index + 1] == '.')
 				continue;
-			i++;
+			index++;
 			break;
 		}
 		else
 			break;
 	}
-	if (i == 0)
+	if (index == 0)
 		return (0);
 
-	if (stat(input + i, &buffer) == 0)
+	if (stat(input + index, &buffer) == 0)
 	{
-		return (i);
+		return (index);
 	}
-	get_error(s_datas, 127);
+	error_info(s_datas, 127);
 	return (-1);
 }
 
 /**
- * get_location - get the location of a command executable
+ * get_location -> this function locate command executable
  * @command: the command name to search for.
  * @_environ: the environment variable.
  * Return: a pointer to a string representing the path of the
@@ -119,39 +120,36 @@ int current_location(char *path, int *i)
 }
 
 /**
- * run_command - executes command lines
- *
- * @s_datas: the needed shell data structure for
+ * run_command -> this function executes a command line
+ * @s_datas: the needed shell shell data structure for
  * the run function.
- * Return: 1 on success.
+ * Return: 1 if successful.
  */
 int run_command(st_shell *s_datas)
 {
-	pid_t child_pd;
-	pid_t wait_pd;
-	int state;
-	int exec;
+	pid_t child_pd, wait_pd;
+	int command_state, executable;
 	char *dir;
 	(void) wait_pd;
 
-	exec = runable(s_datas);
-	if (exec == -1)
+	executable = runable(s_datas);
+	if (executable == -1)
 		return (1);
-	if (exec == 0)
+	if (executable == 0)
 	{
 		dir = get_location(s_datas->args[0], s_datas->_environ);
-		if (check_error_cmd(dir, s_datas) == 1)
+		if (verify_cmd_error(dir, s_datas) == 1)
 			return (1);
 	}
 
 	child_pd = fork();
 	if (child_pd == 0)
 	{
-		if (exec == 0)
+		if (executable == 0)
 			dir = get_location(s_datas->args[0], s_datas->_environ);
 		else
 			dir = s_datas->args[0];
-		execve(dir + exec, s_datas->args, s_datas->_environ);
+		execve(dir + executable, s_datas->args, s_datas->_environ);
 	}
 	else if (child_pd < 0)
 	{
@@ -161,18 +159,17 @@ int run_command(st_shell *s_datas)
 	else
 	{
 		do {
-			wait_pd = waitpid(child_pd, &state, WUNTRACED);
-		} while (!WIFEXITED(state) && !WIFSIGNALED(state));
+			wait_pd = waitpid(child_pd, &command_state, WUNTRACED);
+		} while (!WIFEXITED(command_state) && !WIFSIGNALED(command_state));
 	}
-	s_datas->status = state / 256;
+	s_datas->status = command_state / 256;
 	return (1);
 }
 
 /**
  * filter_out_comment -> this function removes comments
- * from a given input string
- *
- * @input: input string
+ * from a given input line of string
+ * @input: input line string
  * Return: a pointer to the modified input string
  */
 

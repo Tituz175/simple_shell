@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _strcat -> concatenate two strings
+ * _strcat -> this function concatenate two strings
  * @dest: char pointer the dest of the copied str
  * @src: const char pointer the source of str
  * Return: the dest
@@ -22,7 +22,7 @@ char *_strcat(char *dest, const char *src)
 	return (dest);
 }
 /**
- * *_strcpy -> Copies the string pointed to by src.
+ * *_strcpy -> this function copies the string pointed to by src.
  * @dest: Type char pointer the dest of the copied str
  * @src: Type char pointer the source of str
  * Return: the dest.
@@ -42,7 +42,7 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 /**
- * _strcmp -> Function that compares two strings.
+ * _strcmp -> this function compares two strings.
  * @s1: type str compared
  * @s2: type str compared
  * Return: Always 0.
@@ -81,7 +81,7 @@ char *_strchr(char *str, char ch)
 
 
 /**
- * _strdup -> this duplicates a string.
+ * _strdup -> this function duplicates a string.
  * @str: the given string.
  * Return: the pointer to the duplicated string.
  */
