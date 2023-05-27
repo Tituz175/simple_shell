@@ -96,6 +96,7 @@ typedef struct builtin_struct
 	int (*function)(st_shell *s_datas);
 } builtin_function;
 
+void shell_prompt(void);
 
 void _memcpy(void *dest, const void *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);

@@ -23,6 +23,15 @@ int main(int ac, char *argv[])
 }
 
 /**
+ * shell_prompt -> this function prints the prompt
+ */
+
+void shell_prompt(void)
+{
+	write(STDIN_FILENO, "($) ", 4);
+}
+
+/**
  * shell_loop -> this function continuously reads user
  * input from stdin, processes it and executes any valid commands
  * @s_datas: a struct containing relevant data.
@@ -37,7 +46,7 @@ void shell_loop(st_shell *s_datas)
 	loop_status = 1;
 	while (loop_status == 1)
 	{
-		write(STDIN_FILENO, "($) ", 4);
+		shell_prompt();
 		input = read_line(&eof);
 		if (eof != -1)
 		{
