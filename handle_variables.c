@@ -1,201 +1,197 @@
 #include "main.h"
 
 /**
- * environ_var_check -> this function verify maybe the variable
- * is an environment variable
- * @head: the head of sh_variable_list linked list
- * @input: input line string
- * @data: shell data structure
+ * environ_var_check - Checks if the input string matches any
+ *                     environment variable and adds it to the linked list.
+ * @head: Pointer to the head of the sh_variable_list linked list.
+ * @input: The input line string to be checked.
+ * @data: Pointer to the shell data structure containing environment variables.
  */
 void environ_var_check(sh_variable_list **head, char *input, st_shell *data)
 {
-	char **_envr = data->_environ;
-	int i, j = 0;
+    char **_envr = data->_environ; // Pointer to the array of environment variables
+    int i, j = 0;
 
-	while (_envr[j] != NULL)
-	{
-		char *env_var = _envr[j];
-		int k = 0;
+    // Loop through each environment variable
+    while (_envr[j] != NULL)
+    {
+        char *env_var = _envr[j]; // Current environment variable
+        int k = 0;
 
-		while (input[k] == env_var[k] && env_var[k] != '=')
-			k++;
+        // Check if the input matches the environment variable name
+        while (input[k] == env_var[k] && env_var[k] != '=')
+            k++;
 
-		if (env_var[k] == '=')
-		{
-			int len = _strlen(env_var + k + 1);
+        // If the environment variable is found
+        if (env_var[k] == '=')
+        {
+            int len = _strlen(env_var + k + 1); // Length of the variable value
+            add_var_end(head, k, env_var + k + 1, len); // Add to the variable list
+            return;
+        }
 
-			add_var_end(head, k, env_var + k + 1, len);
-			return;
-		}
+        j++;
+    }
 
-		j++;
-	}
+    // If no environment variable found, add a null variable to the list
+    i = 0;
+    while (input[i] != ' ' && input[i] != '\t' && input[i] != ';' && input[i] != '\n' && input[i] != '\0')
+        i++;
 
-	i = 0;
-
-	while (input[i] != ' ' && input[i] != '\t' && input[i] !=
-	';' && input[i] != '\n' && input[i] != '\0')
-		i++;
-
-	add_var_end(head, i, NULL, 0);
+    add_var_end(head, i, NULL, 0);
 }
 
 /**
- * verify_variable ->this function verify maybe the variable is $$ or $?
- * @head: head of the sh_variable_list linked list
- * @input: input line string
- * @s_last: shell last status
- * @data: shell data structure
- * Return: int
+ * verify_variable - Verifies if the variable is $$ (PID) or $? (last status).
+ * @head: Pointer to the head of the sh_variable_list linked list.
+ * @input: The input line string to be checked.
+ * @s_last: String containing the last command status.
+ * @data: Pointer to the shell data structure.
+ * Return: The number of processed characters in the input.
  */
-int verify_variable(sh_variable_list **head, char *input,
-	char *s_last, st_shell *data)
+int verify_variable(sh_variable_list **head, char *input, char *s_last, st_shell *data)
 {
-	int i = 0, lst = _strlen(s_last), lpd = _strlen(data->pid);
+    int i = 0, lst = _strlen(s_last), lpd = _strlen(data->pid);
 
-	while (input[i])
-	{
-		switch (input[i])
-		{
-			case '$':
-				switch (input[++i])
-				{
-					case '?':
-						add_var_end(head, 2, s_last, lst);
-						break;
-					case '$':
-						add_var_end(head, 2, data->pid, lpd);
-						break;
-					case '\n':
-					case '\0':
-					case ' ':
-					case '\t':
-					case ';':
-						add_var_end(head, 0, NULL, 0);
-						break;
-					default:
-						environ_var_check(head, input + i, data);
-						break;
-				}
-			break;
-		default:
-			break;
-		}
-		i++;
-	}
-	return (i);
+    while (input[i])
+    {
+        switch (input[i])
+        {
+            case '$':
+                switch (input[++i])
+                {
+                    case '?':
+                        add_var_end(head, 2, s_last, lst); // Add last command status
+                        break;
+                    case '$':
+                        add_var_end(head, 2, data->pid, lpd); // Add PID
+                        break;
+                    case '\n':
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case ';':
+                        add_var_end(head, 0, NULL, 0); // Add null variable
+                        break;
+                    default:
+                        environ_var_check(head, input + i, data); // Check for environment variables
+                        break;
+                }
+            break;
+            default:
+                break;
+        }
+        i++;
+    }
+    return (i);
 }
 
 /**
- * sub_input -> this function changes given string into variables
- * @head: head of the sh_variable_list linked list.
- * @input: the give input line string.
- * @new_input: the new generated input string.
- * @size: the desired length of the new string.
- * Return: the newly generated string input.
+ * sub_input - Replaces variables in the input string with their values.
+ * @head: Pointer to the head of the sh_variable_list linked list.
+ * @input: The original input line string.
+ * @new_input: The new generated string with variables replaced.
+ * @size: The desired length of the new string.
+ * Return: The newly generated string with variables replaced.
  */
-char *sub_input(sh_variable_list **head, char *input,
-	char *new_input, int size)
+char *sub_input(sh_variable_list **head, char *input, char *new_input, int size)
 {
-	int i, k;
-	sh_variable_list *indx = *head;
-	char *output = new_input;
+    int i, k;
+    sh_variable_list *indx = *head;
+    char *output = new_input;
 
-	for (i = 0; i < size; i++)
-	{
-		if (input[i] == '$')
-		{
-			if (!(indx->len_var) && !(indx->len_val))
-			{
-				*output++ = input[i++];
-			}
-			else if (indx->len_var && !(indx->len_val))
-			{
-				i += indx->len_var - 1;
-			}
-			else
-			{
-				for (k = 0; k < indx->len_val; k++)
-				{
-					*output++ = indx->val[k];
-				}
-				i += indx->len_var - 1;
-			}
-			indx = indx->next;
-		}
-		else
-		{
-			*output++ = input[i];
-		}
-	}
+    for (i = 0; i < size; i++)
+    {
+        if (input[i] == '$')
+        {
+            if (!(indx->len_var) && !(indx->len_val)) // If variable and value lengths are zero
+            {
+                *output++ = input[i++]; // Copy '$' to output
+            }
+            else if (indx->len_var && !(indx->len_val)) // If variable has length but value is empty
+            {
+                i += indx->len_var - 1; // Skip the variable length
+            }
+            else // If variable has a value
+            {
+                for (k = 0; k < indx->len_val; k++)
+                {
+                    *output++ = indx->val[k]; // Copy the variable value to output
+                }
+                i += indx->len_var - 1; // Skip the variable length
+            }
+            indx = indx->next; // Move to the next variable
+        }
+        else
+        {
+            *output++ = input[i]; // Copy other characters directly
+        }
+    }
 
-	return (new_input);
+    return (new_input); // Return the new input string
 }
 
-
 /**
- * swap_variable -> this function to replace string to
- * variable.
- * @s_datas: shell data structure
- * @input: input line string
- * Return: string
+ * swap_variable - Replaces variables in the input string with their actual values.
+ * @input: The input line string containing variables.
+ * @s_datas: Pointer to the shell data structure.
+ * Return: The modified input string with variables replaced.
  */
 char *swap_variable(char *input, st_shell *s_datas)
 {
-	sh_variable_list *head, *index;
-	char *status, *new_input;
-	int old_len, new_len;
+    sh_variable_list *head, *index;
+    char *status, *new_input;
+    int old_len, new_len;
 
-	status = aux_itoa(s_datas->status);
-	head = NULL;
+    status = aux_itoa(s_datas->status); // Convert last status to string
+    head = NULL;
 
-	old_len = verify_variable(&head, input, status, s_datas);
+    old_len = verify_variable(&head, input, status, s_datas); // Verify and populate variable list
 
-	if (head == NULL)
-	{
-		free(status);
-		return (input);
-	}
+    if (head == NULL)
+    {
+        free(status); // Free status string
+        return (input); // Return original input if no variables found
+    }
 
-	index = head;
-	new_len = 0;
+    index = head;
+    new_len = 0;
 
-	while (index != NULL)
-	{
-		new_len += (index->len_val - index->len_var);
-		index = index->next;
-	}
+    while (index != NULL) // Calculate new length after variable replacement
+    {
+        new_len += (index->len_val - index->len_var); // Adjust for variable length changes
+        index = index->next;
+    }
 
-	new_len += old_len;
+    new_len += old_len; // Add length of original input
 
-	new_input = malloc(sizeof(char) * (new_len + 1));
-	if (new_input == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+    new_input = malloc(sizeof(char) * (new_len + 1)); // Allocate memory for new input
+    if (new_input == NULL)
+    {
+        perror("malloc");
+        exit(EXIT_FAILURE); // Exit on memory allocation failure
+    }
 
-	new_input[new_len] = '\0';
-	new_input = sub_input(&head, input, new_input, new_len);
+    new_input[new_len] = '\0'; // Null-terminate the new string
+    new_input = sub_input(&head, input, new_input, new_len); // Replace variables in the input string
 
-	free(input);
-	free(status);
-	free_var_list(&head);
-	return (new_input);
+    free(input); // Free original input
+    free(status); // Free status string
+    free_var_list(&head); // Free variable list
+    return (new_input); // Return modified input string
 }
 
-
 /**
- * count_char -> this function counts the number of
- * recusive the of a character
- * @input: input line string
- * @index: index
- * Return: total number of repetitions
+ * count_char - Counts the number of consecutive occurrences of a character in the input string.
+ * @input: The input line string to be checked.
+ * @index: The current index of the character.
+ * Return: The total number of repetitions of the character.
  */
 int count_char(char *input, int index)
 {
-	if (*(input - 1) == *input)
-		return (count_char(input - 1, index + 1));
+    // Recursive function to count occurrences of the character
+    if (*(input - 1) == *input)
+        return (count_char(input - 1, index + 1));
 
-	return (index);
+    return (index; // Return the count
 }
