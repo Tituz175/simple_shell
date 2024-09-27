@@ -1,13 +1,22 @@
 #include "main.h"
 
 /**
- * _realloc -> this function reallocates a memory using malloc and free.
- * @ptr: A pointer to the memory previously allocated.
+ * _realloc - Reallocates memory for a previously allocated block.
+ *
+ * This function reallocates a memory block pointed to by ptr,
+ * resizing it to new_size. If new_size is greater than old_size,
+ * the extra memory will be uninitialized. If new_size is equal to
+ * old_size, the same pointer is returned. If new_size is zero, 
+ * the function frees the memory and returns NULL.
+ *
+ * @ptr: A pointer to the previously allocated memory.
  * @old_size: The size in bytes of the allocated space for ptr.
  * @new_size: The size in bytes for the new memory block.
- * Return: If new_size == old_size - ptr.
- *         If new_size == 0 and ptr is not NULL - NULL.
- *         Otherwise - a pointer to the reallocated memory block.
+ *
+ * Return: 
+ *         - If new_size == old_size, returns ptr.
+ *         - If new_size == 0 and ptr is not NULL, returns NULL.
+ *         - Otherwise, returns a pointer to the reallocated memory block.
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
@@ -38,8 +47,12 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * _memcpy -> this function copies data from one memory
- * location to another.
+ * _memcpy - Copies data from one memory location to another.
+ *
+ * This function copies n bytes from the source memory area to the 
+ * destination memory area. It assumes that the memory areas do not
+ * overlap.
+ *
  * @dest: Pointer to the destination buffer.
  * @src: Pointer to the source of data to be copied.
  * @n: Number of bytes to copy.
@@ -55,14 +68,21 @@ void _memcpy(void *dest, const void *src, unsigned int n)
 }
 
 /**
- * _reallocdp -> this function reallocates a memory for a
- * double pointer using malloc and free.
- * @ptr: double pointer to the memory previously allocated.
- * @old_size: size, in bytes, of the allocated space of ptr.
- * @new_size: new size, in bytes, of the new memory block.
- * Return: If new_size == old_size - ptr.
- *         If new_size == 0 and ptr is not NULL - NULL.
- *         Otherwise - a pointer to the reallocated memory block.
+ * _reallocdp - Reallocates memory for a double pointer (array of strings).
+ *
+ * This function reallocates memory for a double pointer (an array of 
+ * strings) by allocating a new memory block and copying the contents
+ * from the old block. If ptr is NULL, it allocates memory for new_size.
+ * If new_size is equal to old_size, it returns ptr unchanged.
+ *
+ * @ptr: Double pointer to the previously allocated memory.
+ * @old_size: Size in bytes of the allocated space of ptr.
+ * @new_size: New size in bytes of the new memory block.
+ *
+ * Return: 
+ *         - If new_size == old_size, returns ptr.
+ *         - If new_size == 0 and ptr is not NULL, returns NULL.
+ *         - Otherwise, returns a pointer to the reallocated memory block.
  */
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size)
 {
@@ -88,8 +108,13 @@ char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * free_var_list -> this function frees a sh_variable_list list
- * @head: head of the sh_variable_list linked list.
+ * free_var_list - Frees the memory allocated for a sh_variable_list.
+ *
+ * This function traverses the sh_variable_list linked list and frees
+ * each node to prevent memory leaks. After freeing, it sets the head 
+ * pointer to NULL.
+ *
+ * @head: A pointer to the head of the sh_variable_list linked list.
  */
 void free_var_list(sh_variable_list **head)
 {
@@ -99,11 +124,11 @@ void free_var_list(sh_variable_list **head)
 	if (head != NULL)
 	{
 		curr = *head;
-		while ((temp = curr) != NULL)
+		while ((temp = curr) != NULL)  // Traverse and free nodes
 		{
 			curr = curr->next;
 			free(temp);
 		}
-		*head = NULL;
+		*head = NULL;  // Set head to NULL after freeing
 	}
 }
