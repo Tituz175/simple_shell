@@ -18,90 +18,78 @@
 #define TOKEN_BUFFERSIZE 128
 #define TOKEN_DELIM " \t\r\n\a"
 
+// Environment variable declaration
 extern char **environ;
 
-
 /**
- * struct shell_data -> this is the struct that  will
- * contains all important shell data on application runtime
- * @argv: argument vector, array of argument passed
- * @input: This is the command line given to the shell by the user
- * @args: This a null terminated array of tokens of the given input
- * @status: A numeric value of the status of the shell last process
- * @counter: this is the submission of process in the shell
- * @_environ: the shell environment variables
- * @pid: the process ID of the shell
+ * struct shell_data - Structure containing important shell data at runtime.
+ * @argv: Array of command line arguments passed to the shell.
+ * @input: Command line input provided by the user.
+ * @args: Null-terminated array of tokens parsed from the input.
+ * @status: Exit status of the last executed shell process.
+ * @counter: Counter for the number of processes submitted in the shell.
+ * @_environ: Environment variables for the shell.
+ * @pid: Process ID of the shell.
  */
-typedef struct shell_data
-{
-	char **argv;
-	char *input;
-	char **args;
-	int status;
-	int counter;
-	char **_environ;
-	char *pid;
+typedef struct shell_data {
+    char **argv;
+    char *input;
+    char **args;
+    int status;
+    int counter;
+    char **_environ;
+    char *pid;
 } st_shell;
 
 /**
- * struct separator_lists - single linked list
- * @separator: ; | &
- * @next: next node
- * Description: single linked list to store separators
+ * struct separator_lists - Linked list structure for storing command separators.
+ * @separator: Command separator character (e.g., ; | &).
+ * @next: Pointer to the next node in the list.
  */
-typedef struct separator_lists
-{
-	char separator;
-	struct separator_lists *next;
+typedef struct separator_lists {
+    char separator;
+    struct separator_lists *next;
 } st_separtor_list;
 
 /**
- * struct command_lines_list - single linked list
- * @line: command line
- * @next: next node
- * Description: single linked list to store command lines
+ * struct command_lines_list - Linked list structure for storing command lines.
+ * @line: Command line string.
+ * @next: Pointer to the next node in the list.
  */
-typedef struct command_lines_list
-{
-	char *line;
-	struct command_lines_list *next;
+typedef struct command_lines_list {
+    char *line;
+    struct command_lines_list *next;
 } sh_command_line;
 
 /**
- * struct variable_lists - single linked list
- * @len_var: length of the variable
- * @val: value of the variable
- * @len_val: length of the value
- * @next: next node
- * Description: single linked list to store variables
+ * struct variable_lists - Linked list structure for storing shell variables.
+ * @len_var: Length of the variable name.
+ * @val: Value of the variable.
+ * @len_val: Length of the variable's value.
+ * @next: Pointer to the next node in the list.
  */
-typedef struct variable_lists
-{
-	int len_var;
-	char *val;
-	int len_val;
-	struct variable_lists *next;
+typedef struct variable_lists {
+    int len_var;
+    char *val;
+    int len_val;
+    struct variable_lists *next;
 } sh_variable_list;
 
 /**
- * struct builtin_struct - The "builtin_struct" structure is used
- * to represent built-in command arguments.
- * @function_name: the name of the built-in command.
- * @function: a pointer to a function with unspecified
- * return type and parameters.
+ * struct builtin_struct - Structure for built-in command representation.
+ * @function_name: Name of the built-in command.
+ * @function: Pointer to the corresponding function implementing the command.
  */
-typedef struct builtin_struct
-{
-	char *function_name;
-	int (*function)(st_shell *s_datas);
+typedef struct builtin_struct {
+    char *function_name;
+    int (*function)(st_shell *s_datas);
 } builtin_function;
 
+// Function declarations
 void shell_prompt(void);
-
 void _memcpy(void *dest, const void *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size);
-
 char *_strdup(const char *str);
 int _strlen(const char *str);
 char *_strtok(char str[], char *delim);
@@ -118,36 +106,25 @@ void _strncpy(char *dest, char *src, size_t n);
 void string_slice(char *str, int start, int end, char *result);
 char *_strchr(char *s, char c);
 void rev_string(char *s);
-
 char *filter_out_comment(char *in);
 void shell_loop(st_shell *s_datas);
 char *read_line(int *eof);
-
 void free_data(st_shell *s_datas);
 void set_data(st_shell *s_datas, char **argv);
-
 st_separtor_list *add_sep_end(st_separtor_list **head, char seperatorFF);
 void free_st_separtor_list(st_separtor_list **head);
 sh_command_line *add_line_end(sh_command_line **head, char *line);
 void free_sh_command_line(sh_command_line **head);
-
-sh_variable_list *add_var_end(sh_variable_list **head,
-int length_var, char *var, int length_val);
+sh_variable_list *add_var_end(sh_variable_list **head, int length_var, char *var, int length_val);
 void free_var_list(sh_variable_list **head);
-
 char *char_switch(char *input, int flag);
-void join_nodes(st_separtor_list **head_s,
-sh_command_line **head_l, char *input);
-void next_command(st_separtor_list **list_s,
-sh_command_line **list_l, st_shell *s_datas);
+void join_nodes(st_separtor_list **head_s, sh_command_line **head_l, char *input);
+void next_command(st_separtor_list **list_s, sh_command_line **list_l, st_shell *s_datas);
 int tokenize_commands(st_shell *s_datas, char *input);
 char **tokenize_input(char *input);
-
 int verify_variable(sh_variable_list **head, char *input, char *s_last, st_shell *data);
-char *sub_input(sh_variable_list **head,
-char *input, char *new_input, int size);
+char *sub_input(sh_variable_list **head, char *input, char *new_input, int size);
 char *swap_variable(char *input, st_shell *s_datas);
-
 void help_env(void);
 void help_setenv(void);
 void help_unsetenv(void);
@@ -157,7 +134,6 @@ void help(void);
 void help_alias(void);
 void help_cd(void);
 int get_help(st_shell *s_datas);
-
 int locate_command(st_shell *s_datas);
 int current_location(char *path, int *i);
 char *get_location(char *cmd, char **_environ);
@@ -171,7 +147,6 @@ void cd_home(st_shell *s_datas);
 int manage_cd(st_shell *s_datas);
 int (*shell_builtin(char *command))(st_shell *s_datas);
 int exit_command(st_shell *s_datas);
-
 char *_mygetenv(const char *name, char **_environ);
 int _myenv(st_shell *s_datas);
 int cmp_env_name(const char *nenv, const char *name);
@@ -180,7 +155,6 @@ void set_myenv(char *name, char *value, st_shell *s_datas);
 int set_myenv_wrapper(st_shell *s_datas);
 int _unsetenv(st_shell *s_datas);
 void environ_var_check(sh_variable_list **head, char *input, st_shell *data);
-
 char *error_get_cd(st_shell *s_datas);
 char *error_not_found(st_shell *s_datas);
 char *error_exit_shell(st_shell *s_datas);
