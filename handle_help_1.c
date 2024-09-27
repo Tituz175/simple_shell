@@ -1,9 +1,14 @@
 #include "main.h"
 
 /**
- * get_help -> this function retrieves help messages for built-in commands
- * @s_datas: pointer to a struct containing command data
- * Return: Always returns 1
+ * get_help - Retrieves help messages for built-in shell commands.
+ * @s_datas: A pointer to a struct containing shell command data.
+ *
+ * This function checks which built-in command help message to display,
+ * based on the first argument (s_datas->args[1]). If no argument is 
+ * provided, it displays general help information.
+ *
+ * Return: Always returns 1.
  */
 int get_help(st_shell *s_datas)
 {
@@ -34,9 +39,12 @@ int get_help(st_shell *s_datas)
 }
 
 /**
- * help -> Display help information for the shell.
- * This function displays help information for the shell, including
- * summaries of builtin commands and general usage information.
+ * help - Displays general help information for the shell.
+ *
+ * This function provides an overview of available shell built-in commands,
+ * their usage, and some general information on how to use the shell. 
+ * It includes commands such as `cd`, `alias`, `help`, `env`, `setenv`, 
+ * `unsetenv`, and `exit`. Also provides information about options.
  */
 void help(void)
 {
@@ -65,8 +73,10 @@ void help(void)
 }
 
 /**
- * help_alias -> this function displays help information
- * for the `alias` builtin.
+ * help_alias - Displays help information for the `alias` builtin command.
+ *
+ * This function provides a detailed explanation of the `alias` command,
+ * its usage, and options. It explains how to define or display command aliases.
  */
 void help_alias(void)
 {
@@ -90,7 +100,12 @@ void help_alias(void)
 }
 
 /**
- * help_cd -> this function display help information for the `cd` command
+ * help_cd - Displays help information for the `cd` (change directory) command.
+ *
+ * This function explains the usage of the `cd` command, which changes the
+ * current working directory of the shell. It also describes the available
+ * options such as `-L` (follow symbolic links) and `-P` (do not follow 
+ * symbolic links).
  */
 void help_cd(void)
 {
