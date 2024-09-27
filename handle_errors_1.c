@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * error_info ->this function calls the error function depending on
- * the following permission, syntax or builtin
- * @s_datas: shell data structure that contains arguments needed
- * @error_num: error value number
- * Return: error value number
+ * error_info -> This function calls the appropriate error function 
+ * depending on the following: permission, syntax, or built-in errors.
+ * @s_datas: shell data structure that contains arguments and other relevant data.
+ * @error_num: error value number.
+ * Return: error value number.
  */
 int error_info(st_shell *s_datas, int error_num)
 {
@@ -41,10 +41,10 @@ int error_info(st_shell *s_datas, int error_num)
 }
 
 /**
- * error_not_found -> this function generate generic error message
- * for command not found
- * @s_datas: shell data structure that contains arguments
- * Return: error message
+ * error_not_found -> this function generates a generic error message
+ * for "command not found."
+ * @s_datas: shell data structure containing relevant arguments.
+ * Return: Error message.
  */
 char *error_not_found(st_shell *s_datas)
 {
@@ -74,10 +74,10 @@ char *error_not_found(st_shell *s_datas)
 }
 
 /**
- * error_exit_shell -> this function generate a generic
- * error message for exit
- * @s_datas: data relevant (counter, arguments)
- * Return: Error message
+ * error_exit_shell -> this function generates a generic error message
+ * for an invalid exit command.
+ * @s_datas: shell data structure relevant to the error message.
+ * Return: Error message.
  */
 char *error_exit_shell(st_shell *s_datas)
 {
@@ -109,9 +109,9 @@ char *error_exit_shell(st_shell *s_datas)
 
 /**
  * error_env -> this function generates an error message
- * for env in get_env.
+ * for environment-related errors (add/remove operations).
  * @s_datas: shell data structure relevant to the error message.
- * Return: error message.
+ * Return: Error message.
  */
 char *error_env(st_shell *s_datas)
 {
@@ -143,11 +143,12 @@ char *error_env(st_shell *s_datas)
 
 	return (error);
 }
+
 /**
  * error_path_126 -> this function generates an error message for
- * path and failure denied permission
- * @s_datas: data relevant to the error message (counter, arguments)
- * Return: error string.
+ * path and permission denied issues (error 126).
+ * @s_datas: shell data structure relevant to the error message.
+ * Return: Error message string.
  */
 char *error_path_126(st_shell *s_datas)
 {
