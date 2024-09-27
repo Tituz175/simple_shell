@@ -1,10 +1,20 @@
 #include "main.h"
 
 /**
- * locate_command -> this function finds the
- * shell builtins and normal commands.
- * @s_datas: shell data structure needed for this function
- * Return: always return 1 on success.
+ * locate_command - This function finds and executes either shell built-in 
+ * commands or normal commands based on the input.
+ * @s_datas: A pointer to the shell data structure, which holds information
+ * about the current command input and environment.
+ *
+ * Description:
+ *  - If no command is given (i.e., args[0] is NULL), the function immediately
+ *    returns 1.
+ *  - It checks if the command corresponds to a built-in function. If so, 
+ *    it executes the built-in command.
+ *  - Otherwise, it proceeds to execute an external command.
+ *
+ * Return: Always returns 1 on success for built-ins or the result of
+ * run_command for external commands.
  */
 int locate_command(st_shell *s_datas)
 {
@@ -22,9 +32,20 @@ int locate_command(st_shell *s_datas)
 }
 
 /**
- * exit_command -> This functions execute exits shell command
- * @s_datas: shell data structure needed for this function
- * Return: always return 0 on success.
+ * exit_command - Executes the exit shell command, terminating the shell.
+ * @s_datas: A pointer to the shell data structure, used to retrieve the
+ * exit status from user input.
+ *
+ * Description:
+ *  - If an exit status argument is provided by the user, it checks if the 
+ *    argument is a valid number.
+ *  - Converts the argument to an integer and exits the shell with that 
+ *    status code.
+ *  - If no argument is provided, the shell exits with a default status code.
+ *  - Handles cases where the exit status is too large, not numeric, or exceeds
+ *    integer limits, and throws an error in those cases.
+ *
+ * Return: Always returns 0 on success, 1 if an invalid exit status is provided.
  */
 int exit_command(st_shell *s_datas)
 {
@@ -50,12 +71,18 @@ int exit_command(st_shell *s_datas)
 	return (0);
 }
 
-
 /**
- * shell_builtin -> this function gets the builtin function base on the user
- * given command.
- * @command: this is the user giver command
- * Return: function pointer of the builtin command
+ * shell_builtin - Retrieves the appropriate built-in function for the given
+ * command input.
+ * @command: The command string entered by the user.
+ *
+ * Description:
+ *  - Matches the user input against a list of built-in shell commands.
+ *  - If the command matches a built-in, it returns the function pointer
+ *    for that built-in command.
+ *  - If no match is found, returns NULL.
+ *
+ * Return: A function pointer to the built-in command, or NULL if not found.
  */
 int (*shell_builtin(char *command))(st_shell *)
 {
