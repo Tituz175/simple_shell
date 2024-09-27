@@ -1,9 +1,18 @@
 #include "main.h"
 
 /**
- * cd_parent -> this function changes working
- * directory to the parent directory
- * @s_datas: shell data structure needed for this function
+ * cd_parent - This function changes the current working directory
+ * to the parent directory of the current directory.
+ * @s_datas: A pointer to the shell data structure containing information
+ * about the current shell session and environment variables.
+ *
+ * Description:
+ *  - Retrieves the current working directory.
+ *  - Updates the OLD_PWD environment variable to the current directory.
+ *  - Navigate to the parent directory by stripping off the last directory 
+ *    component from the current path.
+ *  - If already in the root directory, it does nothing.
+ *  - Updates the PWD environment variable to reflect the new directory.
  */
 void cd_parent(st_shell *s_datas)
 {
@@ -50,9 +59,17 @@ void cd_parent(st_shell *s_datas)
 }
 
 /**
- * cd_to -> this function changes working directory
- * to the given directory by the user.
- * @s_datas: shell data structure needed for this function
+ * cd_to - Changes the current working directory to the directory specified 
+ * by the user.
+ * @s_datas: A pointer to the shell data structure containing information
+ * about the current shell session and environment variables.
+ *
+ * Description:
+ *  - Retrieves the directory specified by the user.
+ *  - Attempts to change to the directory, handling errors if the directory
+ *    does not exist or cannot be accessed.
+ *  - Updates the OLD_PWD environment variable to the current directory before
+ *    changing, and the PWD environment variable after the change.
  */
 void cd_to(st_shell *s_datas)
 {
@@ -83,9 +100,16 @@ void cd_to(st_shell *s_datas)
 }
 
 /**
- * cd_previous -> this function changes working directory
- * to the last directory access by the user.
- * @s_datas: shell data structure needed for this function
+ * cd_previous - Changes the current working directory to the last directory
+ * the user accessed.
+ * @s_datas: A pointer to the shell data structure containing information
+ * about the current shell session and environment variables.
+ *
+ * Description:
+ *  - Retrieves the previous directory from the OLDPWD environment variable.
+ *  - Updates the PWD environment variable to reflect the new directory and
+ *    prints the directory to the terminal.
+ *  - If OLDPWD is not set, it reverts to the current directory.
  */
 void cd_previous(st_shell *s_datas)
 {
@@ -124,9 +148,14 @@ void cd_previous(st_shell *s_datas)
 }
 
 /**
- * cd_home -> this function changes the working directory
- * to the home directory.
- * @s_datas: shell data structure needed for this function
+ * cd_home - Changes the current working directory to the home directory.
+ * @s_datas: A pointer to the shell data structure containing information
+ * about the current shell session and environment variables.
+ *
+ * Description:
+ *  - Retrieves the user's home directory from the HOME environment variable.
+ *  - If the home directory cannot be retrieved or accessed, an error is thrown.
+ *  - Updates the OLD_PWD and PWD environment variables accordingly.
  */
 void cd_home(st_shell *s_datas)
 {
@@ -159,10 +188,18 @@ void cd_home(st_shell *s_datas)
 }
 
 /**
- * manage_cd -> this function manage the change directory
- * function.
- * @s_datas: shell data structure needed for this function
- * Return: 1 on success
+ * manage_cd - Handles the change directory (cd) command based on user input.
+ * @s_datas: A pointer to the shell data structure containing information
+ * about the current shell session and environment variables.
+ *
+ * Description:
+ *  - If no directory is specified or if certain arguments like "$HOME", "~", 
+ *    or "--" are given, it changes the directory to the home directory.
+ *  - If the argument is "-", it switches to the previous directory.
+ *  - If the argument is "." or "..", it moves to the parent directory.
+ *  - Otherwise, it attempts to change to the directory specified by the user.
+ *
+ * Return: Always returns 1 on success.
  */
 int manage_cd(st_shell *s_datas)
 {
